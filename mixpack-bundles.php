@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Plugin Name:       MixPack Bundles for WooCommerce
+ * Plugin Name:       MixPack Bundles
  * Description:       Create flexible mix-and-match product packs and bundles with a guided builder for WooCommerce.
  * Version:           1.0.0
  * Requires at least: 6.5
  * Requires PHP:      8.0
  * Requires Plugins:  woocommerce
- * Author:            MixPack
+ * Author:            Mahim Zaman
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       mixpack-bundles

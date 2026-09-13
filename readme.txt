@@ -1,5 +1,5 @@
-=== MixPack Bundles for WooCommerce ===
-Contributors: Mahim Zaman
+=== MixPack Bundles ===
+Contributors: mahimzaman
 Tags: woocommerce, bundles, product bundles, mix and match
 Requires at least: 6.5
 Tested up to: 7.1
