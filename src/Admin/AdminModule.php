@@ -386,12 +386,19 @@ final class AdminModule implements Module
 
     private function get_config($product)
     {
+        $config = array();
+
         if ($product instanceof BundleProduct) {
             $config = $product->get_bundle_config();
-        } else {
-            $config = $product
-                ? $product->get_meta(BundleProduct::CONFIG_META_KEY, true)
-                : array();
+        } elseif ($product instanceof \WC_Product) {
+            $stored_config = $product->get_meta(
+                BundleProduct::CONFIG_META_KEY,
+                true
+            );
+
+            if (is_array($stored_config)) {
+                $config = $stored_config;
+            }
         }
 
         if (empty($config['pack_sizes'])) {
@@ -411,16 +418,20 @@ final class AdminModule implements Module
             );
         }
 
-        $config['pricing_mode'] = $config['pricing_mode'] ?? 'fixed';
+        $config['pricing_mode'] = isset($config['pricing_mode'])
+            ? $config['pricing_mode']
+            : 'fixed';
 
         if (empty($config['groups'][0])) {
-            $config['groups'][0] = array(
-                'id'               => 'default',
-                'label'            => __('Products', 'mixpack-bundles'),
-                'source'           => 'products',
-                'product_ids'      => array(),
-                'category_ids'     => array(),
-                'allow_duplicates' => true,
+            $config['groups'] = array(
+                array(
+                    'id'               => 'default',
+                    'label'            => __('Products', 'mixpack-bundles'),
+                    'source'           => 'products',
+                    'product_ids'      => array(),
+                    'category_ids'     => array(),
+                    'allow_duplicates' => true,
+                ),
             );
         }
 
