@@ -69,6 +69,7 @@ final class AdminModule implements Module
                 <p class="form-field mixpack-pack-sizes-field">
                     <label>
                         <?php esc_html_e('Pack sizes', 'mixpack-bundles'); ?>
+
                         <?php
                         echo wp_kses_post(
                             wc_help_tip(
@@ -156,9 +157,12 @@ final class AdminModule implements Module
                 <p class="form-field mixpack-source-products">
                     <label for="mixpack_product_ids">
                         <?php esc_html_e('Products', 'mixpack-bundles'); ?>
+
                         <?php
-                        echo wc_help_tip(
-                            __('Search for the simple products customers can add to this bundle.', 'mixpack-bundles')
+                        echo wp_kses_post(
+                            wc_help_tip(
+                                __('Search for the simple products customers can add to this bundle.', 'mixpack-bundles')
+                            )
                         );
                         ?>
                     </label>
@@ -175,7 +179,9 @@ final class AdminModule implements Module
                             <?php $product = wc_get_product($product_id); ?>
 
                             <?php if ($product) : ?>
-                                <option value="<?php echo esc_attr($product_id); ?>" selected>
+                                <option
+                                    value="<?php echo esc_attr($product_id); ?>"
+                                    selected>
                                     <?php echo esc_html(wp_strip_all_tags($product->get_formatted_name())); ?>
                                 </option>
                             <?php endif; ?>
@@ -186,9 +192,12 @@ final class AdminModule implements Module
                 <p class="form-field mixpack-source-categories">
                     <label for="mixpack_category_ids">
                         <?php esc_html_e('Categories', 'mixpack-bundles'); ?>
+
                         <?php
-                        echo wc_help_tip(
-                            __('Products from these categories will be available in the bundle.', 'mixpack-bundles')
+                        echo wp_kses_post(
+                            wc_help_tip(
+                                __('Products from these categories will be available in the bundle.', 'mixpack-bundles')
+                            )
                         );
                         ?>
                     </label>
@@ -242,13 +251,19 @@ final class AdminModule implements Module
 
     public function save($product)
     {
-        if (
-            empty($_POST['mixpack_bundles_nonce']) ||
-            ! wp_verify_nonce(
-                sanitize_text_field(wp_unslash($_POST['mixpack_bundles_nonce'])),
-                'mixpack_bundles_save_config'
-            )
-        ) {
+        if (empty($_POST['mixpack_bundles_nonce'])) {
+            return;
+        }
+
+        $nonce = sanitize_text_field(
+            wp_unslash($_POST['mixpack_bundles_nonce'])
+        );
+
+        if (! wp_verify_nonce($nonce, 'mixpack_bundles_save_config')) {
+            return;
+        }
+
+        if (! current_user_can('edit_post', $product->get_id())) {
             return;
         }
 
@@ -260,7 +275,7 @@ final class AdminModule implements Module
             return;
         }
 
-        if (! current_user_can('edit_post', $product->get_id())) {
+        if (! $product instanceof BundleProduct) {
             return;
         }
 
@@ -272,8 +287,6 @@ final class AdminModule implements Module
             $pricing_mode = 'fixed';
         }
 
-        $pack_sizes = $this->get_pack_sizes_from_request();
-
         $source = isset($_POST['mixpack_product_source'])
             ? sanitize_key(wp_unslash($_POST['mixpack_product_source']))
             : 'products';
@@ -282,25 +295,57 @@ final class AdminModule implements Module
             $source = 'products';
         }
 
+        $pack_quantities = isset($_POST['mixpack_pack_quantity'])
+            ? array_map(
+                'absint',
+                (array) wp_unslash($_POST['mixpack_pack_quantity'])
+            )
+            : array();
+
+        $pack_prices = isset($_POST['mixpack_pack_price'])
+            ? array_map(
+                'sanitize_text_field',
+                (array) wp_unslash($_POST['mixpack_pack_price'])
+            )
+            : array();
+
+        $product_ids = isset($_POST['mixpack_product_ids'])
+            ? array_map(
+                'absint',
+                (array) wp_unslash($_POST['mixpack_product_ids'])
+            )
+            : array();
+
+        $category_ids = isset($_POST['mixpack_category_ids'])
+            ? array_map(
+                'absint',
+                (array) wp_unslash($_POST['mixpack_category_ids'])
+            )
+            : array();
+
         $config = array(
             'schema'       => 1,
             'pricing_mode' => $pricing_mode,
-            'pack_sizes'   => $pack_sizes,
+            'pack_sizes'   => $this->build_pack_sizes(
+                $pack_quantities,
+                $pack_prices
+            ),
             'groups'       => array(
                 array(
                     'id'               => 'default',
                     'label'            => __('Products', 'mixpack-bundles'),
                     'source'           => $source,
-                    'product_ids'      => $this->get_product_ids_from_request($product->get_id()),
-                    'category_ids'     => $this->get_category_ids_from_request(),
+                    'product_ids'      => $this->validate_product_ids(
+                        $product->get_id(),
+                        $product_ids
+                    ),
+                    'category_ids'     => $this->validate_category_ids(
+                        $category_ids
+                    ),
                     'allow_duplicates' => isset($_POST['mixpack_allow_duplicates']),
                 ),
             ),
         );
-
-        if (! $product instanceof BundleProduct) {
-            return;
-        }
 
         $product->set_bundle_config($config);
 
@@ -351,9 +396,18 @@ final class AdminModule implements Module
 
         if (empty($config['pack_sizes'])) {
             $config['pack_sizes'] = array(
-                array('quantity' => 3, 'price' => ''),
-                array('quantity' => 6, 'price' => ''),
-                array('quantity' => 12, 'price' => ''),
+                array(
+                    'quantity' => 3,
+                    'price'    => '',
+                ),
+                array(
+                    'quantity' => 6,
+                    'price'    => '',
+                ),
+                array(
+                    'quantity' => 12,
+                    'price'    => '',
+                ),
             );
         }
 
@@ -373,28 +427,12 @@ final class AdminModule implements Module
         return $config;
     }
 
-    private function get_pack_sizes_from_request()
+    private function build_pack_sizes($quantities, $prices)
     {
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified in save().
-        $quantities = isset($_POST['mixpack_pack_quantity'])
-            ? array_map(
-                'absint',
-                (array) wp_unslash($_POST['mixpack_pack_quantity'])
-            )
-            : array();
-
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified in save().
-        $prices = isset($_POST['mixpack_pack_price'])
-            ? array_map(
-                'wc_format_decimal',
-                (array) wp_unslash($_POST['mixpack_pack_price'])
-            )
-            : array();
-
         $packs = array();
 
         foreach ($quantities as $index => $quantity) {
-            $quantity = (int) $quantity;
+            $quantity = absint($quantity);
 
             if ($quantity < 1) {
                 continue;
@@ -408,11 +446,13 @@ final class AdminModule implements Module
                 continue;
             }
 
+            $price = isset($prices[$index])
+                ? wc_format_decimal($prices[$index])
+                : '';
+
             $packs[$quantity] = array(
                 'quantity' => $quantity,
-                'price'    => isset($prices[$index])
-                    ? wc_format_decimal($prices[$index])
-                    : '',
+                'price'    => $price,
             );
         }
 
@@ -421,13 +461,8 @@ final class AdminModule implements Module
         return array_values($packs);
     }
 
-    private function get_product_ids_from_request($bundle_id)
+    private function validate_product_ids($bundle_id, $ids)
     {
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified in save().
-        $ids = isset($_POST['mixpack_product_ids'])
-            ? array_map('absint', (array) wp_unslash($_POST['mixpack_product_ids']))
-            : array();
-
         $valid = array();
 
         foreach (array_unique($ids) as $id) {
@@ -445,18 +480,16 @@ final class AdminModule implements Module
         return $valid;
     }
 
-    private function get_category_ids_from_request()
+    private function validate_category_ids($ids)
     {
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified in save().
-        $ids = isset($_POST['mixpack_category_ids'])
-            ? array_map('absint', (array) wp_unslash($_POST['mixpack_category_ids']))
-            : array();
-
         return array_values(
             array_filter(
                 array_unique($ids),
                 static function ($id) {
-                    return (bool) term_exists($id, 'product_cat');
+                    return (bool) term_exists(
+                        $id,
+                        'product_cat'
+                    );
                 }
             )
         );
