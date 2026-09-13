@@ -121,6 +121,10 @@ final class Plugin
         );
 
         $this->modules->add(
+            new Admin\SettingsModule()
+        );
+
+        $this->modules->add(
             new Frontend\FrontendModule()
         );
 

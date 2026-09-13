@@ -5,6 +5,7 @@ namespace MixPack\Bundles\Frontend;
 use MixPack\Bundles\Contracts\Module;
 use MixPack\Bundles\Product\BundleProduct;
 use MixPack\Bundles\Product\ProductResolver;
+use MixPack\Bundles\Admin\SettingsModule;
 
 defined('ABSPATH') || exit;
 
@@ -111,6 +112,34 @@ final class FrontendModule implements Module
             MIXPACK_BUNDLES_VERSION
         );
 
+        $appearance = SettingsModule::get_values();
+
+        $appearance_css = sprintf(
+            '.mixpack-builder{
+			--mixpack-primary:%1$s;
+			--mixpack-button-bg:%2$s;
+			--mixpack-button-text:%3$s;
+			--mixpack-builder-bg:%4$s;
+			--mixpack-card-bg:%5$s;
+			--mixpack-text:%6$s;
+			--mixpack-muted:%7$s;
+			--mixpack-border:%8$s;
+		}',
+            $appearance['primary'],
+            $appearance['button_bg'],
+            $appearance['button_text'],
+            $appearance['builder_bg'],
+            $appearance['card_bg'],
+            $appearance['text'],
+            $appearance['muted'],
+            $appearance['border']
+        );
+
+        wp_add_inline_style(
+            'mixpack-bundles-frontend',
+            $appearance_css
+        );
+
         wp_enqueue_script(
             'mixpack-bundles-frontend',
             MIXPACK_BUNDLES_URL . 'assets/js/frontend.js',
@@ -124,7 +153,11 @@ final class FrontendModule implements Module
             'MixPackBundles',
             array(
                 'currency' => array(
-                    'symbol'            => get_woocommerce_currency_symbol(),
+                    'symbol' => html_entity_decode(
+                        get_woocommerce_currency_symbol(),
+                        ENT_QUOTES,
+                        'UTF-8'
+                    ),
                     'decimals'          => wc_get_price_decimals(),
                     'decimalSeparator'  => wc_get_price_decimal_separator(),
                     'thousandSeparator' => wc_get_price_thousand_separator(),
@@ -135,12 +168,14 @@ final class FrontendModule implements Module
                     ),
                 ),
                 'i18n' => array(
-                    'complete'       => __('Pack complete!', 'mixpack-bundles'),
-                    'oneRemaining'   => __('Choose 1 more item to complete your pack.', 'mixpack-bundles'),
-                    /* translators: %d: Number of items remaining. */
+                    'complete'     => __('Pack complete!', 'mixpack-bundles'),
+                    'oneRemaining' => __('Choose 1 more item to complete your pack.', 'mixpack-bundles'),
+
+                    /* translators: %d: Number of remaining products. */
                     'remaining' => __('Choose %d more items to complete your pack.', 'mixpack-bundles'),
-                    'incomplete'     => __('Complete Your Pack', 'mixpack-bundles'),
-                    'addToCart'      => __('Add Pack to Cart', 'mixpack-bundles'),
+
+                    'incomplete' => __('Complete Your Pack', 'mixpack-bundles'),
+                    'addToCart'  => __('Add Pack to Cart', 'mixpack-bundles'),
                 ),
             )
         );
