@@ -3,17 +3,17 @@
 /**
  * Plugin module registry.
  *
- * @package MixPackBundles
+ * @package MahimZamanBuildABundle
  */
 
-namespace MixPack\Bundles\Support;
+namespace MahimZaman\BuildABundle\Support;
 
-use MixPack\Bundles\Contracts\Module;
+use MahimZaman\BuildABundle\Contracts\Module;
 
 defined('ABSPATH') || exit;
 
 /**
- * Stores and registers MixPack Bundles modules.
+ * Stores and registers MahimZaman Build-a-Bundle for WooCommerce modules.
  */
 final class ModuleRegistry
 {

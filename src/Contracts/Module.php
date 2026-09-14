@@ -3,10 +3,10 @@
 /**
  * Module contract.
  *
- * @package MixPackBundles
+ * @package MahimZamanBuildABundle
  */
 
-namespace MixPack\Bundles\Contracts;
+namespace MahimZaman\BuildABundle\Contracts;
 
 defined('ABSPATH') || exit;
 

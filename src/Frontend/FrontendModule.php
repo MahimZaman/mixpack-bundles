@@ -1,11 +1,11 @@
 <?php
 
-namespace MixPack\Bundles\Frontend;
+namespace MahimZaman\BuildABundle\Frontend;
 
-use MixPack\Bundles\Contracts\Module;
-use MixPack\Bundles\Product\BundleProduct;
-use MixPack\Bundles\Product\ProductResolver;
-use MixPack\Bundles\Admin\SettingsModule;
+use MahimZaman\BuildABundle\Contracts\Module;
+use MahimZaman\BuildABundle\Product\BundleProduct;
+use MahimZaman\BuildABundle\Product\ProductResolver;
+use MahimZaman\BuildABundle\Admin\SettingsModule;
 
 defined('ABSPATH') || exit;
 
@@ -15,7 +15,7 @@ final class FrontendModule implements Module
     public function register()
     {
         add_action(
-            'woocommerce_mixpack_bundle_add_to_cart',
+            'woocommerce_mahimzaman_bundle_add_to_cart',
             array($this, 'render_builder')
         );
 
@@ -48,18 +48,18 @@ final class FrontendModule implements Module
             : 0;
 
         if (
-            isset($_GET['mixpack_edit'], $_GET['mixpack_edit_nonce']) &&
+            isset($_GET['mahimzaman_bab_edit'], $_GET['mahimzaman_bab_edit_nonce']) &&
             WC()->cart
         ) {
             $key = sanitize_text_field(
-                wp_unslash($_GET['mixpack_edit'])
+                wp_unslash($_GET['mahimzaman_bab_edit'])
             );
 
             $nonce = sanitize_text_field(
-                wp_unslash($_GET['mixpack_edit_nonce'])
+                wp_unslash($_GET['mahimzaman_bab_edit_nonce'])
             );
 
-            if (! wp_verify_nonce($nonce, 'mixpack_edit_' . $key)) {
+            if (! wp_verify_nonce($nonce, 'mahimzaman_bab_edit_' . $key)) {
                 return;
             }
 
@@ -68,11 +68,11 @@ final class FrontendModule implements Module
             if (
                 isset($cart[$key]) &&
                 (int) $cart[$key]['product_id'] === $bundle->get_id() &&
-                ! empty($cart[$key]['mixpack'])
+                ! empty($cart[$key]['mahimzaman_bab'])
             ) {
                 $edit_cart_key     = $key;
-                $selected_pack     = absint($cart[$key]['mixpack']['pack']);
-                $selected_products = $cart[$key]['mixpack']['selections'];
+                $selected_pack     = absint($cart[$key]['mahimzaman_bab']['pack']);
+                $selected_products = $cart[$key]['mahimzaman_bab']['selections'];
                 $edit_quantity     = max(1, absint($cart[$key]['quantity']));
             }
         }
@@ -84,7 +84,7 @@ final class FrontendModule implements Module
             $selected_pack = (int) $packs[0]['quantity'];
         }
 
-        include MIXPACK_BUNDLES_PATH . 'templates/frontend/builder.php';
+        include MAHIMZAMAN_BAB_PATH . 'templates/frontend/builder.php';
     }
 
     public function enqueue_assets()
@@ -106,24 +106,24 @@ final class FrontendModule implements Module
         }
 
         wp_enqueue_style(
-            'mixpack-bundles-frontend',
-            MIXPACK_BUNDLES_URL . 'assets/css/frontend.css',
+            'mahimzaman-build-a-bundle-for-woocommerce-frontend',
+            MAHIMZAMAN_BAB_URL . 'assets/css/frontend.css',
             array(),
-            MIXPACK_BUNDLES_VERSION
+            MAHIMZAMAN_BAB_VERSION
         );
 
         $appearance = SettingsModule::get_values();
 
         $appearance_css = sprintf(
-            '.mixpack-builder{
-			--mixpack-primary:%1$s;
-			--mixpack-button-bg:%2$s;
-			--mixpack-button-text:%3$s;
-			--mixpack-builder-bg:%4$s;
-			--mixpack-card-bg:%5$s;
-			--mixpack-text:%6$s;
-			--mixpack-muted:%7$s;
-			--mixpack-border:%8$s;
+            '.mahimzaman-bab-builder{
+			--mahimzaman-bab-primary:%1$s;
+			--mahimzaman-bab-button-bg:%2$s;
+			--mahimzaman-bab-button-text:%3$s;
+			--mahimzaman-bab-builder-bg:%4$s;
+			--mahimzaman-bab-card-bg:%5$s;
+			--mahimzaman-bab-text:%6$s;
+			--mahimzaman-bab-muted:%7$s;
+			--mahimzaman-bab-border:%8$s;
 		}',
             $appearance['primary'],
             $appearance['button_bg'],
@@ -136,21 +136,21 @@ final class FrontendModule implements Module
         );
 
         wp_add_inline_style(
-            'mixpack-bundles-frontend',
+            'mahimzaman-build-a-bundle-for-woocommerce-frontend',
             $appearance_css
         );
 
         wp_enqueue_script(
-            'mixpack-bundles-frontend',
-            MIXPACK_BUNDLES_URL . 'assets/js/frontend.js',
+            'mahimzaman-build-a-bundle-for-woocommerce-frontend',
+            MAHIMZAMAN_BAB_URL . 'assets/js/frontend.js',
             array('jquery'),
-            MIXPACK_BUNDLES_VERSION,
+            MAHIMZAMAN_BAB_VERSION,
             true
         );
 
         wp_localize_script(
-            'mixpack-bundles-frontend',
-            'MixPackBundles',
+            'mahimzaman-build-a-bundle-for-woocommerce-frontend',
+            'MahimZamanBuildABundle',
             array(
                 'currency' => array(
                     'symbol' => html_entity_decode(
@@ -168,14 +168,14 @@ final class FrontendModule implements Module
                     ),
                 ),
                 'i18n' => array(
-                    'complete'     => __('Pack complete!', 'mixpack-bundles'),
-                    'oneRemaining' => __('Choose 1 more item to complete your pack.', 'mixpack-bundles'),
+                    'complete'     => __('Pack complete!', 'mahimzaman-build-a-bundle-for-woocommerce'),
+                    'oneRemaining' => __('Choose 1 more item to complete your pack.', 'mahimzaman-build-a-bundle-for-woocommerce'),
 
                     /* translators: %d: Number of remaining products. */
-                    'remaining' => __('Choose %d more items to complete your pack.', 'mixpack-bundles'),
+                    'remaining' => __('Choose %d more items to complete your pack.', 'mahimzaman-build-a-bundle-for-woocommerce'),
 
-                    'incomplete' => __('Complete Your Pack', 'mixpack-bundles'),
-                    'addToCart'  => __('Add Pack to Cart', 'mixpack-bundles'),
+                    'incomplete' => __('Complete Your Pack', 'mahimzaman-build-a-bundle-for-woocommerce'),
+                    'addToCart'  => __('Add Pack to Cart', 'mahimzaman-build-a-bundle-for-woocommerce'),
                 ),
             )
         );

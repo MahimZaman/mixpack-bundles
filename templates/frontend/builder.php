@@ -6,16 +6,16 @@ if (empty($packs) || empty($products)) {
     return;
 }
 
-$mixpack_bundles_first_pack     = $packs[0];
-$mixpack_bundles_selected_total = array_sum($selected_products);
+$mahimzaman_bab_first_pack     = $packs[0];
+$mahimzaman_bab_selected_total = array_sum($selected_products);
 ?>
 
 <form
-    class="cart mixpack-cart-form"
+    class="cart mahimzaman-bab-cart-form"
     action="<?php echo esc_url($bundle->get_permalink()); ?>"
     method="post"
     enctype="multipart/form-data">
-    <?php wp_nonce_field('mixpack_add_to_cart', 'mixpack_cart_nonce'); ?>
+    <?php wp_nonce_field('mahimzaman_bab_add_to_cart', 'mahimzaman_bab_cart_nonce'); ?>
 
     <input
         type="hidden"
@@ -30,59 +30,59 @@ $mixpack_bundles_selected_total = array_sum($selected_products);
     <?php if ($edit_cart_key) : ?>
         <input
             type="hidden"
-            name="mixpack_edit_cart_key"
+            name="mahimzaman_bab_edit_cart_key"
             value="<?php echo esc_attr($edit_cart_key); ?>">
     <?php endif; ?>
 
     <div
-        class="mixpack-builder"
+        class="mahimzaman-bab-builder"
         data-product-id="<?php echo esc_attr($bundle->get_id()); ?>"
         data-pricing-mode="<?php echo esc_attr($bundle->get_pricing_mode()); ?>"
         data-allow-duplicates="<?php echo ! empty($group['allow_duplicates']) ? '1' : '0'; ?>">
 
         <?php if (count($packs) > 1) : ?>
 
-            <div class="mixpack-section mixpack-pack-section">
-                <h3 class="mixpack-section-title">
-                    <?php esc_html_e('Choose Your Pack', 'mixpack-bundles'); ?>
+            <div class="mahimzaman-bab-section mahimzaman-bab-pack-section">
+                <h3 class="mahimzaman-bab-section-title">
+                    <?php esc_html_e('Choose Your Pack', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
                 </h3>
 
-                <fieldset class="mixpack-pack-options">
+                <fieldset class="mahimzaman-bab-pack-options">
                     <legend class="screen-reader-text">
-                        <?php esc_html_e('Choose your pack size', 'mixpack-bundles'); ?>
+                        <?php esc_html_e('Choose your pack size', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
                     </legend>
 
-                    <?php foreach ($packs as $mixpack_bundles_index => $mixpack_bundles_pack) : ?>
+                    <?php foreach ($packs as $mahimzaman_bab_index => $mahimzaman_bab_pack) : ?>
 
-                        <label class="mixpack-pack-option">
+                        <label class="mahimzaman-bab-pack-option">
                             <input
                                 type="radio"
-                                name="mixpack_pack"
-                                value="<?php echo esc_attr($mixpack_bundles_pack['quantity']); ?>"
+                                name="mahimzaman_bab_pack"
+                                value="<?php echo esc_attr($mahimzaman_bab_pack['quantity']); ?>"
                                 data-price="<?php
                                             echo esc_attr(
                                                 wc_get_price_to_display(
                                                     $bundle,
                                                     array(
-                                                        'price' => (float) $mixpack_bundles_pack['price'],
+                                                        'price' => (float) $mahimzaman_bab_pack['price'],
                                                     )
                                                 )
                                             );
                                             ?>"
                                 <?php
                                 checked(
-                                    (int) $mixpack_bundles_pack['quantity'],
+                                    (int) $mahimzaman_bab_pack['quantity'],
                                     $selected_pack
                                 );
                                 ?>>
 
-                            <span class="mixpack-pack-option-content">
+                            <span class="mahimzaman-bab-pack-option-content">
                                 <strong>
                                     <?php
                                     printf(
                                         /* translators: %d: Number of products in the pack. */
-                                        esc_html__('%d-Pack', 'mixpack-bundles'),
-                                        (int) $mixpack_bundles_pack['quantity']
+                                        esc_html__('%d-Pack', 'mahimzaman-build-a-bundle-for-woocommerce'),
+                                        (int) $mahimzaman_bab_pack['quantity']
                                     );
                                     ?>
                                 </strong>
@@ -90,17 +90,17 @@ $mixpack_bundles_selected_total = array_sum($selected_products);
                                 <?php
                                 if (
                                     'fixed' === $bundle->get_pricing_mode() &&
-                                    '' !== $mixpack_bundles_pack['price']
+                                    '' !== $mahimzaman_bab_pack['price']
                                 ) :
                                 ?>
-                                    <span class="mixpack-pack-price">
+                                    <span class="mahimzaman-bab-pack-price">
                                         <?php
                                         echo wp_kses_post(
                                             wc_price(
                                                 wc_get_price_to_display(
                                                     $bundle,
                                                     array(
-                                                        'price' => (float) $mixpack_bundles_pack['price'],
+                                                        'price' => (float) $mahimzaman_bab_pack['price'],
                                                     )
                                                 )
                                             )
@@ -121,7 +121,7 @@ $mixpack_bundles_selected_total = array_sum($selected_products);
 
             <input
                 type="hidden"
-                name="mixpack_pack"
+                name="mahimzaman_bab_pack"
                 value="<?php echo esc_attr($active_pack['quantity']); ?>"
                 data-price="<?php
                             echo esc_attr(
@@ -136,34 +136,34 @@ $mixpack_bundles_selected_total = array_sum($selected_products);
 
         <?php endif; ?>
 
-        <div class="mixpack-section">
+        <div class="mahimzaman-bab-section">
 
-            <div class="mixpack-builder-header">
+            <div class="mahimzaman-bab-builder-header">
 
-                <h3 class="mixpack-section-title">
-                    <?php esc_html_e('Choose Your Products', 'mixpack-bundles'); ?>
+                <h3 class="mahimzaman-bab-section-title">
+                    <?php esc_html_e('Choose Your Products', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
                 </h3>
 
-                <div class="mixpack-progress">
+                <div class="mahimzaman-bab-progress">
 
                     <strong
-                        class="mixpack-progress-count"
+                        class="mahimzaman-bab-progress-count"
                         aria-live="polite">
-                        <span class="mixpack-selected-count">
-                            <?php echo esc_html($mixpack_bundles_selected_total); ?>
+                        <span class="mahimzaman-bab-selected-count">
+                            <?php echo esc_html($mahimzaman_bab_selected_total); ?>
                         </span>
 
-                        <?php esc_html_e('of', 'mixpack-bundles'); ?>
+                        <?php esc_html_e('of', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
 
-                        <span class="mixpack-required-count">
+                        <span class="mahimzaman-bab-required-count">
                             <?php echo esc_html($selected_pack); ?>
                         </span>
 
-                        <?php esc_html_e('selected', 'mixpack-bundles'); ?>
+                        <?php esc_html_e('selected', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
                     </strong>
 
                     <span
-                        class="mixpack-progress-text"
+                        class="mahimzaman-bab-progress-text"
                         role="status"
                         aria-live="polite"
                         aria-atomic="true">
@@ -172,7 +172,7 @@ $mixpack_bundles_selected_total = array_sum($selected_products);
                             /* translators: %d: Required number of products in the pack. */
                             esc_html__(
                                 'Choose %d items to complete your pack.',
-                                'mixpack-bundles'
+                                'mahimzaman-build-a-bundle-for-woocommerce'
                             ),
                             (int) $selected_pack
                         );
@@ -182,30 +182,30 @@ $mixpack_bundles_selected_total = array_sum($selected_products);
                 </div>
             </div>
 
-            <div class="mixpack-products">
+            <div class="mahimzaman-bab-products">
 
-                <?php foreach ($products as $mixpack_bundles_item) : ?>
+                <?php foreach ($products as $mahimzaman_bab_item) : ?>
 
                     <?php
-                    $mixpack_bundles_item_quantity = isset(
-                        $selected_products[$mixpack_bundles_item->get_id()]
+                    $mahimzaman_bab_item_quantity = isset(
+                        $selected_products[$mahimzaman_bab_item->get_id()]
                     )
                         ? absint(
-                            $selected_products[$mixpack_bundles_item->get_id()]
+                            $selected_products[$mahimzaman_bab_item->get_id()]
                         )
                         : 0;
                     ?>
 
                     <div
-                        class="mixpack-product"
-                        data-product-id="<?php echo esc_attr($mixpack_bundles_item->get_id()); ?>"
-                        data-price="<?php echo esc_attr(wc_get_price_to_display($mixpack_bundles_item)); ?>"
-                        aria-selected="<?php echo $mixpack_bundles_item_quantity > 0 ? 'true' : 'false'; ?>">
+                        class="mahimzaman-bab-product"
+                        data-product-id="<?php echo esc_attr($mahimzaman_bab_item->get_id()); ?>"
+                        data-price="<?php echo esc_attr(wc_get_price_to_display($mahimzaman_bab_item)); ?>"
+                        aria-selected="<?php echo $mahimzaman_bab_item_quantity > 0 ? 'true' : 'false'; ?>">
 
-                        <div class="mixpack-product-image">
+                        <div class="mahimzaman-bab-product-image">
                             <?php
                             echo wp_kses_post(
-                                $mixpack_bundles_item->get_image(
+                                $mahimzaman_bab_item->get_image(
                                     'woocommerce_thumbnail',
                                     array(
                                         'loading' => 'lazy',
@@ -215,45 +215,45 @@ $mixpack_bundles_selected_total = array_sum($selected_products);
                             ?>
                         </div>
 
-                        <div class="mixpack-product-content">
+                        <div class="mahimzaman-bab-product-content">
 
-                            <h4 class="mixpack-product-title">
-                                <?php echo esc_html($mixpack_bundles_item->get_name()); ?>
+                            <h4 class="mahimzaman-bab-product-title">
+                                <?php echo esc_html($mahimzaman_bab_item->get_name()); ?>
                             </h4>
 
                             <?php if ('calculated' === $bundle->get_pricing_mode()) : ?>
-                                <div class="mixpack-product-price">
+                                <div class="mahimzaman-bab-product-price">
                                     <?php
                                     echo wp_kses_post(
-                                        $mixpack_bundles_item->get_price_html()
+                                        $mahimzaman_bab_item->get_price_html()
                                     );
                                     ?>
                                 </div>
                             <?php endif; ?>
 
-                            <div class="mixpack-quantity-control">
+                            <div class="mahimzaman-bab-quantity-control">
 
                                 <button
                                     type="button"
-                                    class="mixpack-quantity-button mixpack-minus"
+                                    class="mahimzaman-bab-quantity-button mahimzaman-bab-minus"
                                     aria-label="<?php
                                                 echo esc_attr(
                                                     sprintf(
                                                         /* translators: %s: Product name. */
-                                                        __('Decrease %s quantity', 'mixpack-bundles'),
-                                                        $mixpack_bundles_item->get_name()
+                                                        __('Decrease %s quantity', 'mahimzaman-build-a-bundle-for-woocommerce'),
+                                                        $mahimzaman_bab_item->get_name()
                                                     )
                                                 );
                                                 ?>"
-                                    <?php disabled(0 === $mixpack_bundles_item_quantity); ?>>
+                                    <?php disabled(0 === $mahimzaman_bab_item_quantity); ?>>
                                     −
                                 </button>
 
                                 <input
                                     type="number"
-                                    class="mixpack-product-quantity"
-                                    name="mixpack_products[<?php echo esc_attr($mixpack_bundles_item->get_id()); ?>]"
-                                    value="<?php echo esc_attr($mixpack_bundles_item_quantity); ?>"
+                                    class="mahimzaman-bab-product-quantity"
+                                    name="mahimzaman_bab_products[<?php echo esc_attr($mahimzaman_bab_item->get_id()); ?>]"
+                                    value="<?php echo esc_attr($mahimzaman_bab_item_quantity); ?>"
                                     min="0"
                                     step="1"
                                     readonly
@@ -261,21 +261,21 @@ $mixpack_bundles_selected_total = array_sum($selected_products);
                                                 echo esc_attr(
                                                     sprintf(
                                                         /* translators: %s: Product name. */
-                                                        __('%s quantity', 'mixpack-bundles'),
-                                                        $mixpack_bundles_item->get_name()
+                                                        __('%s quantity', 'mahimzaman-build-a-bundle-for-woocommerce'),
+                                                        $mahimzaman_bab_item->get_name()
                                                     )
                                                 );
                                                 ?>">
 
                                 <button
                                     type="button"
-                                    class="mixpack-quantity-button mixpack-plus"
+                                    class="mahimzaman-bab-quantity-button mahimzaman-bab-plus"
                                     aria-label="<?php
                                                 echo esc_attr(
                                                     sprintf(
                                                         /* translators: %s: Product name. */
-                                                        __('Increase %s quantity', 'mixpack-bundles'),
-                                                        $mixpack_bundles_item->get_name()
+                                                        __('Increase %s quantity', 'mahimzaman-build-a-bundle-for-woocommerce'),
+                                                        $mahimzaman_bab_item->get_name()
                                                     )
                                                 );
                                                 ?>">
@@ -291,32 +291,32 @@ $mixpack_bundles_selected_total = array_sum($selected_products);
             </div>
         </div>
 
-        <div class="mixpack-summary">
+        <div class="mahimzaman-bab-summary">
 
-            <div class="mixpack-summary-status">
+            <div class="mahimzaman-bab-summary-status">
 
-                <span class="mixpack-summary-label">
-                    <?php esc_html_e('Pack progress', 'mixpack-bundles'); ?>
+                <span class="mahimzaman-bab-summary-label">
+                    <?php esc_html_e('Pack progress', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
                 </span>
 
                 <strong
-                    class="mixpack-summary-count"
+                    class="mahimzaman-bab-summary-count"
                     aria-live="polite"
                     aria-atomic="true">
-                    <?php echo esc_html($mixpack_bundles_selected_total); ?>
+                    <?php echo esc_html($mahimzaman_bab_selected_total); ?>
                     /
                     <?php echo esc_html($selected_pack); ?>
                 </strong>
 
             </div>
 
-            <div class="mixpack-summary-price">
+            <div class="mahimzaman-bab-summary-price">
 
                 <span>
-                    <?php esc_html_e('Total', 'mixpack-bundles'); ?>
+                    <?php esc_html_e('Total', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
                 </span>
 
-                <strong class="mixpack-total-price">
+                <strong class="mahimzaman-bab-total-price">
                     <?php
                     if ('fixed' === $bundle->get_pricing_mode()) {
                         echo wp_kses_post(
@@ -343,9 +343,9 @@ $mixpack_bundles_selected_total = array_sum($selected_products);
 
         <button
             type="submit"
-            class="button alt mixpack-add-to-cart"
+            class="button alt mahimzaman-bab-add-to-cart"
             disabled>
-            <?php esc_html_e('Complete Your Pack', 'mixpack-bundles'); ?>
+            <?php esc_html_e('Complete Your Pack', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
         </button>
 
     </div>

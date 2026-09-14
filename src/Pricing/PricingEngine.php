@@ -1,8 +1,8 @@
 <?php
 
-namespace MixPack\Bundles\Pricing;
+namespace MahimZaman\BuildABundle\Pricing;
 
-use MixPack\Bundles\Product\BundleProduct;
+use MahimZaman\BuildABundle\Product\BundleProduct;
 
 defined('ABSPATH') || exit;
 

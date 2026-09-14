@@ -1,8 +1,8 @@
 <?php
 
-namespace MixPack\Bundles\Product;
+namespace MahimZaman\BuildABundle\Product;
 
-use MixPack\Bundles\Contracts\Module;
+use MahimZaman\BuildABundle\Contracts\Module;
 
 defined('ABSPATH') || exit;
 
@@ -26,9 +26,9 @@ final class ProductModule implements Module
 
     public function add_product_type($types)
     {
-        $types['mixpack_bundle'] = __(
-            'MixPack Bundle',
-            'mixpack-bundles'
+        $types['mahimzaman_bundle'] = __(
+            'Build-a-Bundle',
+            'mahimzaman-build-a-bundle-for-woocommerce'
         );
 
         return $types;
@@ -36,7 +36,7 @@ final class ProductModule implements Module
 
     public function product_class($classname, $product_type)
     {
-        if ('mixpack_bundle' === $product_type) {
+        if ('mahimzaman_bundle' === $product_type) {
             return BundleProduct::class;
         }
 

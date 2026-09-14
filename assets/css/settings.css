@@ -1,31 +1,31 @@
-.mixpack-settings {
+.mahimzaman-bab-settings {
 	max-width: 1100px;
 }
 
-.mixpack-settings-header {
+.mahimzaman-bab-settings-header {
 	margin: 24px 0;
 	padding-bottom: 18px;
 	border-bottom: 1px solid #dcdcde;
 }
 
-.mixpack-settings-header h1 {
+.mahimzaman-bab-settings-header h1 {
 	margin: 0 0 6px;
 	font-size: 24px;
 }
 
-.mixpack-settings-header p {
+.mahimzaman-bab-settings-header p {
 	margin: 0;
 	color: #646970;
 	font-size: 14px;
 }
 
-.mixpack-settings-grid {
+.mahimzaman-bab-settings-grid {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 20px;
 }
 
-.mixpack-settings-card {
+.mahimzaman-bab-settings-card {
 	padding: 22px;
 	border: 1px solid #dcdcde;
 	border-radius: 8px;
@@ -33,14 +33,14 @@
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
-.mixpack-settings-card h2 {
+.mahimzaman-bab-settings-card h2 {
 	margin: 0 0 20px;
 	padding-bottom: 12px;
 	border-bottom: 1px solid #f0f0f1;
 	font-size: 16px;
 }
 
-.mixpack-setting-row {
+.mahimzaman-bab-setting-row {
 	display: grid;
 	grid-template-columns: minmax(150px, 1fr) minmax(180px, 1fr);
 	align-items: center;
@@ -49,12 +49,12 @@
 	padding: 8px 0;
 }
 
-.mixpack-setting-label label {
+.mahimzaman-bab-setting-label label {
 	font-weight: 600;
 	color: #1d2327;
 }
 
-.mixpack-settings-actions {
+.mahimzaman-bab-settings-actions {
 	margin-top: 20px;
 	padding: 16px 20px;
 	border: 1px solid #dcdcde;
@@ -62,24 +62,24 @@
 	background: #fff;
 }
 
-.mixpack-reset-form {
+.mahimzaman-bab-reset-form {
 	margin-top: 12px;
 }
 
-.mixpack-settings .wp-picker-container {
+.mahimzaman-bab-settings .wp-picker-container {
 	display: inline-block;
 }
 
-.mixpack-settings .wp-color-result.button {
+.mahimzaman-bab-settings .wp-color-result.button {
 	margin: 0;
 }
 
 @media screen and (max-width: 782px) {
-	.mixpack-settings-grid {
+	.mahimzaman-bab-settings-grid {
 		grid-template-columns: 1fr;
 	}
 
-	.mixpack-setting-row {
+	.mahimzaman-bab-setting-row {
 		grid-template-columns: 1fr;
 		gap: 6px;
 	}

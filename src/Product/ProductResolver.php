@@ -1,6 +1,6 @@
 <?php
 
-namespace MixPack\Bundles\Product;
+namespace MahimZaman\BuildABundle\Product;
 
 defined('ABSPATH') || exit;
 

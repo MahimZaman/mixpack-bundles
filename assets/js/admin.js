@@ -1,40 +1,40 @@
 jQuery(function ($) {
-	const $pricing = $("#mixpack_pricing_mode");
-	const $source = $("#mixpack_product_source");
-	const currency = $(".mixpack-currency").first().text() || "";
+	const $pricing = $("#mahimzaman_bab_pricing_mode");
+	const $source = $("#mahimzaman_bab_product_source");
+	const currency = $(".mahimzaman-bab-currency").first().text() || "";
 
 	function updatePricing() {
-		$(".mixpack-price-field").toggle($pricing.val() === "fixed");
+		$(".mahimzaman-bab-price-field").toggle($pricing.val() === "fixed");
 	}
 
 	function updateSource() {
 		const value = $source.val();
 
-		$(".mixpack-source-products").toggle(value === "products");
-		$(".mixpack-source-categories").toggle(value === "categories");
+		$(".mahimzaman-bab-source-products").toggle(value === "products");
+		$(".mahimzaman-bab-source-categories").toggle(value === "categories");
 	}
 
-	$("#mixpack-add-pack").on("click", function () {
-		$("#mixpack-pack-rows").append(`
-			<span class="mixpack-pack-row">
-				<span class="mixpack-pack-input">
-					<span class="mixpack-input-label">Quantity</span>
+	$("#mahimzaman-bab-add-pack").on("click", function () {
+		$("#mahimzaman-bab-pack-rows").append(`
+			<span class="mahimzaman-bab-pack-row">
+				<span class="mahimzaman-bab-pack-input">
+					<span class="mahimzaman-bab-input-label">Quantity</span>
 					<input
 						type="number"
-						name="mixpack_pack_quantity[]"
+						name="mahimzaman_bab_pack_quantity[]"
 						min="1"
 						step="1"
 					>
 				</span>
 
-				<span class="mixpack-pack-input mixpack-price-field">
-					<span class="mixpack-input-label">Price</span>
+				<span class="mahimzaman-bab-pack-input mahimzaman-bab-price-field">
+					<span class="mahimzaman-bab-input-label">Price</span>
 
-					<span class="mixpack-price-input">
-						<span class="mixpack-currency">${currency}</span>
+					<span class="mahimzaman-bab-price-input">
+						<span class="mahimzaman-bab-currency">${currency}</span>
 						<input
 							type="text"
-							name="mixpack_pack_price[]"
+							name="mahimzaman_bab_pack_price[]"
 							class="wc_input_price"
 						>
 					</span>
@@ -42,7 +42,7 @@ jQuery(function ($) {
 
 				<button
 					type="button"
-					class="button-link-delete mixpack-remove-pack"
+					class="button-link-delete mahimzaman-bab-remove-pack"
 				>
 					Remove
 				</button>
@@ -52,8 +52,8 @@ jQuery(function ($) {
 		updatePricing();
 	});
 
-	$(document).on("click", ".mixpack-remove-pack", function () {
-		$(this).closest(".mixpack-pack-row").remove();
+	$(document).on("click", ".mahimzaman-bab-remove-pack", function () {
+		$(this).closest(".mahimzaman-bab-pack-row").remove();
 	});
 
 	$pricing.on("change", updatePricing);

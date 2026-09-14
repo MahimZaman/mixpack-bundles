@@ -1,27 +1,27 @@
 jQuery(function ($) {
-	$(".mixpack-builder").each(function () {
+	$(".mahimzaman-bab-builder").each(function () {
 		const $builder = $(this);
 		const pricingMode = $builder.data("pricing-mode");
 		const allowDuplicates =
 			String($builder.data("allow-duplicates")) === "1";
 
-		const $selectedCount = $builder.find(".mixpack-selected-count");
-		const $requiredCount = $builder.find(".mixpack-required-count");
-		const $progressText = $builder.find(".mixpack-progress-text");
-		const $summaryCount = $builder.find(".mixpack-summary-count");
-		const $totalPrice = $builder.find(".mixpack-total-price");
-		const $addButton = $builder.find(".mixpack-add-to-cart");
+		const $selectedCount = $builder.find(".mahimzaman-bab-selected-count");
+		const $requiredCount = $builder.find(".mahimzaman-bab-required-count");
+		const $progressText = $builder.find(".mahimzaman-bab-progress-text");
+		const $summaryCount = $builder.find(".mahimzaman-bab-summary-count");
+		const $totalPrice = $builder.find(".mahimzaman-bab-total-price");
+		const $addButton = $builder.find(".mahimzaman-bab-add-to-cart");
 
 		function getPackInput() {
 			const $checked = $builder.find(
-				'input[name="mixpack_pack"]:checked',
+				'input[name="mahimzaman_bab_pack"]:checked',
 			);
 
 			if ($checked.length) {
 				return $checked;
 			}
 
-			return $builder.find('input[name="mixpack_pack"][type="hidden"]');
+			return $builder.find('input[name="mahimzaman_bab_pack"][type="hidden"]');
 		}
 
 		function getRequiredQuantity() {
@@ -31,7 +31,7 @@ jQuery(function ($) {
 		function getSelectedQuantity() {
 			let total = 0;
 
-			$builder.find(".mixpack-product-quantity").each(function () {
+			$builder.find(".mahimzaman-bab-product-quantity").each(function () {
 				total += parseInt($(this).val(), 10) || 0;
 			});
 
@@ -41,12 +41,12 @@ jQuery(function ($) {
 		function getCalculatedPrice() {
 			let total = 0;
 
-			$builder.find(".mixpack-product").each(function () {
+			$builder.find(".mahimzaman-bab-product").each(function () {
 				const $product = $(this);
 				const price = parseFloat($product.data("price")) || 0;
 				const quantity =
 					parseInt(
-						$product.find(".mixpack-product-quantity").val(),
+						$product.find(".mahimzaman-bab-product-quantity").val(),
 						10,
 					) || 0;
 
@@ -61,7 +61,7 @@ jQuery(function ($) {
 		}
 
 		function formatPrice(amount) {
-			const currency = MixPackBundles.currency;
+			const currency = MahimZamanBuildABundle.currency;
 			const decimals = parseInt(currency.decimals, 10) || 0;
 
 			let parts = Number(amount).toFixed(decimals).split(".");
@@ -84,26 +84,26 @@ jQuery(function ($) {
 		}
 
 		function resetSelections() {
-			$builder.find(".mixpack-product-quantity").val(0);
+			$builder.find(".mahimzaman-bab-product-quantity").val(0);
 		}
 
 		function updateControls() {
 			const required = getRequiredQuantity();
 			const selected = getSelectedQuantity();
 
-			$builder.find(".mixpack-product").each(function () {
+			$builder.find(".mahimzaman-bab-product").each(function () {
 				const $product = $(this);
-				const $input = $product.find(".mixpack-product-quantity");
+				const $input = $product.find(".mahimzaman-bab-product-quantity");
 				const quantity = parseInt($input.val(), 10) || 0;
 
 				$product
 					.toggleClass("is-selected", quantity > 0)
 					.attr("aria-selected", quantity > 0 ? "true" : "false");
 
-				$product.find(".mixpack-minus").prop("disabled", quantity <= 0);
+				$product.find(".mahimzaman-bab-minus").prop("disabled", quantity <= 0);
 
 				$product
-					.find(".mixpack-plus")
+					.find(".mahimzaman-bab-plus")
 					.prop(
 						"disabled",
 						selected >= required ||
@@ -123,12 +123,12 @@ jQuery(function ($) {
 			$summaryCount.text(selected + " / " + required);
 
 			if (complete) {
-				$progressText.text(MixPackBundles.i18n.complete);
+				$progressText.text(MahimZamanBuildABundle.i18n.complete);
 			} else if (remaining === 1) {
-				$progressText.text(MixPackBundles.i18n.oneRemaining);
+				$progressText.text(MahimZamanBuildABundle.i18n.oneRemaining);
 			} else {
 				$progressText.text(
-					MixPackBundles.i18n.remaining.replace("%d", remaining),
+					MahimZamanBuildABundle.i18n.remaining.replace("%d", remaining),
 				);
 			}
 
@@ -138,8 +138,8 @@ jQuery(function ($) {
 				.prop("disabled", !complete)
 				.text(
 					complete
-						? MixPackBundles.i18n.addToCart
-						: MixPackBundles.i18n.incomplete,
+						? MahimZamanBuildABundle.i18n.addToCart
+						: MahimZamanBuildABundle.i18n.incomplete,
 				);
 		}
 
@@ -158,7 +158,7 @@ jQuery(function ($) {
 			updateControls();
 		}
 
-		$builder.on("click", ".mixpack-plus", function () {
+		$builder.on("click", ".mahimzaman-bab-plus", function () {
 			const required = getRequiredQuantity();
 			const selected = getSelectedQuantity();
 
@@ -167,8 +167,8 @@ jQuery(function ($) {
 			}
 
 			const $input = $(this)
-				.closest(".mixpack-product")
-				.find(".mixpack-product-quantity");
+				.closest(".mahimzaman-bab-product")
+				.find(".mahimzaman-bab-product-quantity");
 
 			const current = parseInt($input.val(), 10) || 0;
 
@@ -181,10 +181,10 @@ jQuery(function ($) {
 			updateBuilder();
 		});
 
-		$builder.on("click", ".mixpack-minus", function () {
+		$builder.on("click", ".mahimzaman-bab-minus", function () {
 			const $input = $(this)
-				.closest(".mixpack-product")
-				.find(".mixpack-product-quantity");
+				.closest(".mahimzaman-bab-product")
+				.find(".mahimzaman-bab-product-quantity");
 
 			const current = parseInt($input.val(), 10) || 0;
 
@@ -197,7 +197,7 @@ jQuery(function ($) {
 			updateBuilder();
 		});
 
-		$builder.on("change", 'input[name="mixpack_pack"]', function () {
+		$builder.on("change", 'input[name="mahimzaman_bab_pack"]', function () {
 			if (getSelectedQuantity() > getRequiredQuantity()) {
 				resetSelections();
 			}

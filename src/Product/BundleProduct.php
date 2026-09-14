@@ -1,17 +1,17 @@
 <?php
 
-namespace MixPack\Bundles\Product;
+namespace MahimZaman\BuildABundle\Product;
 
 defined('ABSPATH') || exit;
 
 final class BundleProduct extends \WC_Product
 {
 
-    public const CONFIG_META_KEY = '_mixpack_bundles_config';
+    public const CONFIG_META_KEY = '_mahimzaman_bab_config';
 
     public function get_type()
     {
-        return 'mixpack_bundle';
+        return 'mahimzaman_bundle';
     }
 
     public function is_purchasable()
@@ -79,7 +79,7 @@ final class BundleProduct extends \WC_Product
         if (empty($config['pack_sizes'])) {
             $errors->add(
                 'missing_pack_sizes',
-                __('Add at least one pack size.', 'mixpack-bundles')
+                __('Add at least one pack size.', 'mahimzaman-build-a-bundle-for-woocommerce')
             );
         }
 
@@ -90,7 +90,7 @@ final class BundleProduct extends \WC_Product
                         'missing_pack_price',
                         sprintf(
                             /* translators: %d: Pack quantity. */
-                            __('Enter a price for the %d-pack.', 'mixpack-bundles'),
+                            __('Enter a price for the %d-pack.', 'mahimzaman-build-a-bundle-for-woocommerce'),
                             $pack['quantity']
                         )
                     );
@@ -103,7 +103,7 @@ final class BundleProduct extends \WC_Product
                             /* translators: %d: Pack quantity. */
                             __(
                                 'The price for the %d-pack cannot be negative.',
-                                'mixpack-bundles'
+                                'mahimzaman-build-a-bundle-for-woocommerce'
                             ),
                             $pack['quantity']
                         )
@@ -115,7 +115,7 @@ final class BundleProduct extends \WC_Product
         if (empty($config['groups'])) {
             $errors->add(
                 'missing_products',
-                __('Choose products for this bundle.', 'mixpack-bundles')
+                __('Choose products for this bundle.', 'mahimzaman-build-a-bundle-for-woocommerce')
             );
 
             return $errors;
@@ -129,7 +129,7 @@ final class BundleProduct extends \WC_Product
         ) {
             $errors->add(
                 'missing_products',
-                __('Choose at least one product.', 'mixpack-bundles')
+                __('Choose at least one product.', 'mahimzaman-build-a-bundle-for-woocommerce')
             );
         }
 
@@ -139,7 +139,7 @@ final class BundleProduct extends \WC_Product
         ) {
             $errors->add(
                 'missing_categories',
-                __('Choose at least one product category.', 'mixpack-bundles')
+                __('Choose at least one product category.', 'mahimzaman-build-a-bundle-for-woocommerce')
             );
         }
 
@@ -232,7 +232,7 @@ final class BundleProduct extends \WC_Product
 
                 'label' => isset($group['label'])
                     ? sanitize_text_field($group['label'])
-                    : __('Products', 'mixpack-bundles'),
+                    : __('Products', 'mahimzaman-build-a-bundle-for-woocommerce'),
 
                 'source' => $source,
 
@@ -272,7 +272,7 @@ final class BundleProduct extends \WC_Product
     {
         return array(
             'id'               => 'default',
-            'label'            => __('Products', 'mixpack-bundles'),
+            'label'            => __('Products', 'mahimzaman-build-a-bundle-for-woocommerce'),
             'source'           => 'products',
             'product_ids'      => array(),
             'category_ids'     => array(),

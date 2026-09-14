@@ -3,17 +3,17 @@
 /**
  * Main plugin controller.
  *
- * @package MixPackBundles
+ * @package MahimZamanBuildABundle
  */
 
-namespace MixPack\Bundles;
+namespace MahimZaman\BuildABundle;
 
-use MixPack\Bundles\Support\ModuleRegistry;
+use MahimZaman\BuildABundle\Support\ModuleRegistry;
 
 defined('ABSPATH') || exit;
 
 /**
- * Main MixPack Bundles application controller.
+ * Main MahimZaman Build-a-Bundle for WooCommerce application controller.
  */
 final class Plugin
 {
@@ -89,13 +89,13 @@ final class Plugin
         add_action('plugins_loaded', array($this, 'boot'), 20);
 
         /**
-         * Fires after MixPack Bundles has registered its modules.
+         * Fires after MahimZaman Build-a-Bundle for WooCommerce has registered its modules.
          *
          * WooCommerce may not be fully initialized when this hook runs.
          *
          * @param Plugin $plugin Main plugin instance.
          */
-        do_action('mixpack_bundles_registered', $this);
+        do_action('mahimzaman_bab_registered', $this);
     }
 
     /**
@@ -156,12 +156,12 @@ final class Plugin
         $this->booted = true;
 
         /**
-         * Fires once MixPack Bundles and its runtime requirements
+         * Fires once MahimZaman Build-a-Bundle for WooCommerce and its runtime requirements
          * are available.
          *
          * @param Plugin $plugin Main plugin instance.
          */
-        do_action('mixpack_bundles_loaded', $this);
+        do_action('mahimzaman_bab_loaded', $this);
     }
 
     /**

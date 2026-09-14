@@ -1,11 +1,11 @@
 <?php
 
-namespace MixPack\Bundles\Compatibility;
+namespace MahimZaman\BuildABundle\Compatibility;
 
 use Automattic\WooCommerce\StoreApi\Schemas\V1\CartItemSchema;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
-use MixPack\Bundles\Contracts\Module;
-use MixPack\Bundles\Product\BundleProduct;
+use MahimZaman\BuildABundle\Contracts\Module;
+use MahimZaman\BuildABundle\Product\BundleProduct;
 
 defined('ABSPATH') || exit;
 
@@ -33,13 +33,13 @@ final class CompatibilityModule implements Module
 
         FeaturesUtil::declare_compatibility(
             'custom_order_tables',
-            MIXPACK_BUNDLES_BASENAME,
+            MAHIMZAMAN_BAB_BASENAME,
             true
         );
 
         FeaturesUtil::declare_compatibility(
             'cart_checkout_blocks',
-            MIXPACK_BUNDLES_BASENAME,
+            MAHIMZAMAN_BAB_BASENAME,
             true
         );
     }
@@ -56,7 +56,7 @@ final class CompatibilityModule implements Module
         woocommerce_store_api_register_endpoint_data(
             array(
                 'endpoint'        => CartItemSchema::IDENTIFIER,
-                'namespace'       => 'mixpack-bundles',
+                'namespace'       => 'mahimzaman-build-a-bundle-for-woocommerce',
                 'data_callback'   => array($this, 'get_cart_item_data'),
                 'schema_callback' => array($this, 'get_cart_item_schema'),
                 'schema_type'     => ARRAY_A,
@@ -67,7 +67,7 @@ final class CompatibilityModule implements Module
     public function get_cart_item_data($cart_item)
     {
         if (
-            empty($cart_item['mixpack']) ||
+            empty($cart_item['mahimzaman_bab']) ||
             empty($cart_item['data']) ||
             ! $cart_item['data'] instanceof BundleProduct
         ) {
@@ -80,7 +80,7 @@ final class CompatibilityModule implements Module
 
         $items = array();
 
-        foreach ($cart_item['mixpack']['selections'] as $product_id => $quantity) {
+        foreach ($cart_item['mahimzaman_bab']['selections'] as $product_id => $quantity) {
             $product = wc_get_product($product_id);
 
             if (! $product) {
@@ -96,7 +96,7 @@ final class CompatibilityModule implements Module
 
         return array(
             'is_bundle' => true,
-            'pack'      => absint($cart_item['mixpack']['pack']),
+            'pack'      => absint($cart_item['mahimzaman_bab']['pack']),
             'items'     => $items,
         );
     }

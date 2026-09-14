@@ -3,10 +3,10 @@
 /**
  * Plugin requirement checks.
  *
- * @package MixPackBundles
+ * @package MahimZamanBuildABundle
  */
 
-namespace MixPack\Bundles;
+namespace MahimZaman\BuildABundle;
 
 defined('ABSPATH') || exit;
 
@@ -99,7 +99,7 @@ final class Requirements
 ?>
         <div class="notice notice-error">
             <p>
-                <strong><?php esc_html_e('MixPack Bundles:', 'mixpack-bundles'); ?></strong>
+                <strong><?php esc_html_e('MahimZaman Build-a-Bundle for WooCommerce:', 'mahimzaman-build-a-bundle-for-woocommerce'); ?></strong>
                 <?php echo esc_html($message); ?>
             </p>
         </div>
@@ -116,7 +116,7 @@ final class Requirements
         if (version_compare(PHP_VERSION, self::MINIMUM_PHP, '<')) {
             return sprintf(
                 /* translators: %s: Minimum required PHP version. */
-                __('PHP %s or newer is required.', 'mixpack-bundles'),
+                __('PHP %s or newer is required.', 'mahimzaman-build-a-bundle-for-woocommerce'),
                 self::MINIMUM_PHP
             );
         }
@@ -124,7 +124,7 @@ final class Requirements
         if (version_compare(get_bloginfo('version'), self::MINIMUM_WORDPRESS, '<')) {
             return sprintf(
                 /* translators: %s: Minimum required WordPress version. */
-                __('WordPress %s or newer is required.', 'mixpack-bundles'),
+                __('WordPress %s or newer is required.', 'mahimzaman-build-a-bundle-for-woocommerce'),
                 self::MINIMUM_WORDPRESS
             );
         }
@@ -132,7 +132,7 @@ final class Requirements
         if (! class_exists('WooCommerce')) {
             return __(
                 'WooCommerce must be installed and activated before this plugin can run.',
-                'mixpack-bundles'
+                'mahimzaman-build-a-bundle-for-woocommerce'
             );
         }
 
@@ -142,7 +142,7 @@ final class Requirements
         ) {
             return sprintf(
                 /* translators: %s: Minimum required WooCommerce version. */
-                __('WooCommerce %s or newer is required.', 'mixpack-bundles'),
+                __('WooCommerce %s or newer is required.', 'mahimzaman-build-a-bundle-for-woocommerce'),
                 self::MINIMUM_WOOCOMMERCE
             );
         }

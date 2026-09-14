@@ -3,15 +3,15 @@
 /**
  * Internal class autoloader.
  *
- * @package MixPackBundles
+ * @package MahimZamanBuildABundle
  */
 
-namespace MixPack\Bundles;
+namespace MahimZaman\BuildABundle;
 
 defined('ABSPATH') || exit;
 
 /**
- * Loads MixPack Bundles classes from the src directory.
+ * Loads MahimZaman Build-a-Bundle for WooCommerce classes from the src directory.
  */
 final class Autoloader
 {
@@ -21,7 +21,7 @@ final class Autoloader
      *
      * @var string
      */
-    private const PREFIX = 'MixPack\\Bundles\\';
+    private const PREFIX = 'MahimZaman\\BuildABundle\\';
 
     /**
      * Register the autoloader.

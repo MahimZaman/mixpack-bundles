@@ -1,7 +1,7 @@
 $Root = $PSScriptRoot
 $BuildRoot = Join-Path $Root "build"
-$PackageRoot = Join-Path $BuildRoot "mixpack-bundles"
-$Zip = Join-Path $BuildRoot "mixpack-bundles-1.0.0.zip"
+$PackageRoot = Join-Path $BuildRoot "mahimzaman-build-a-bundle-for-woocommerce"
+$Zip = Join-Path $BuildRoot "mahimzaman-build-a-bundle-for-woocommerce-1.0.0.zip"
 
 if (Test-Path $BuildRoot) {
     Remove-Item $BuildRoot -Recurse -Force

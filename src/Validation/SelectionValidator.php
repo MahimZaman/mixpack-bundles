@@ -1,9 +1,9 @@
 <?php
 
-namespace MixPack\Bundles\Validation;
+namespace MahimZaman\BuildABundle\Validation;
 
-use MixPack\Bundles\Product\BundleProduct;
-use MixPack\Bundles\Product\ProductResolver;
+use MahimZaman\BuildABundle\Product\BundleProduct;
+use MahimZaman\BuildABundle\Product\ProductResolver;
 
 defined('ABSPATH') || exit;
 
@@ -20,7 +20,7 @@ final class SelectionValidator
         if (! $bundle->is_configured()) {
             $errors->add(
                 'invalid_bundle',
-                __('This bundle is not configured correctly.', 'mixpack-bundles')
+                __('This bundle is not configured correctly.', 'mahimzaman-build-a-bundle-for-woocommerce')
             );
 
             return $errors;
@@ -29,7 +29,7 @@ final class SelectionValidator
         if (! $bundle->get_pack($pack_quantity)) {
             $errors->add(
                 'invalid_pack',
-                __('Please choose a valid pack size.', 'mixpack-bundles')
+                __('Please choose a valid pack size.', 'mahimzaman-build-a-bundle-for-woocommerce')
             );
 
             return $errors;
@@ -38,7 +38,7 @@ final class SelectionValidator
         if (empty($selections)) {
             $errors->add(
                 'empty_selection',
-                __('Please choose products for your pack.', 'mixpack-bundles')
+                __('Please choose products for your pack.', 'mahimzaman-build-a-bundle-for-woocommerce')
             );
 
             return $errors;
@@ -51,7 +51,7 @@ final class SelectionValidator
                 'invalid_quantity',
                 sprintf(
                     /* translators: 1: selected quantity, 2: required quantity. */
-                    __('You selected %1$d of %2$d required items.', 'mixpack-bundles'),
+                    __('You selected %1$d of %2$d required items.', 'mahimzaman-build-a-bundle-for-woocommerce'),
                     $total,
                     $pack_quantity
                 )
@@ -68,7 +68,7 @@ final class SelectionValidator
             if (! in_array($product_id, $eligible_ids, true)) {
                 $errors->add(
                     'invalid_product',
-                    __('One or more selected products are not available for this bundle.', 'mixpack-bundles')
+                    __('One or more selected products are not available for this bundle.', 'mahimzaman-build-a-bundle-for-woocommerce')
                 );
 
                 continue;
@@ -77,7 +77,7 @@ final class SelectionValidator
             if (! $allow_duplicates && $quantity > 1) {
                 $errors->add(
                     'duplicates_not_allowed',
-                    __('This bundle allows only one of each product.', 'mixpack-bundles')
+                    __('This bundle allows only one of each product.', 'mahimzaman-build-a-bundle-for-woocommerce')
                 );
             }
 
@@ -90,8 +90,8 @@ final class SelectionValidator
                     'insufficient_stock',
                     sprintf(
                         /* translators: %s: Product name. */
-                        __('There is not enough stock available for %s.', 'mixpack-bundles'),
-                        $product ? $product->get_name() : __('a selected product', 'mixpack-bundles')
+                        __('There is not enough stock available for %s.', 'mahimzaman-build-a-bundle-for-woocommerce'),
+                        $product ? $product->get_name() : __('a selected product', 'mahimzaman-build-a-bundle-for-woocommerce')
                     )
                 );
             }

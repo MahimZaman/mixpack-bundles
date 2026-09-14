@@ -1,3 +1,3 @@
 jQuery(function ($) {
-	$(".mixpack-color-field").wpColorPicker();
+	$(".mahimzaman-bab-color-field").wpColorPicker();
 });

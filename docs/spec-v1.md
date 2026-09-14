@@ -1,17 +1,17 @@
-# MixPack Bundles for WooCommerce
+# MahimZaman Build-a-Bundle for WooCommerce
 
 ## Version 1.0 Functional Specification
 
-**Plugin:** MixPack Bundles for WooCommerce
-**Slug:** `mixpack-bundles`
-**Text Domain:** `mixpack-bundles`
-**PHP Namespace:** `MixPack\Bundles`
+**Plugin:** MahimZaman Build-a-Bundle for WooCommerce
+**Slug:** `mahimzaman-build-a-bundle-for-woocommerce`
+**Text Domain:** `mahimzaman-build-a-bundle-for-woocommerce`
+**PHP Namespace:** `MahimZaman\BuildABundle`
 
 ---
 
 # 1. Product Goal
 
-MixPack Bundles allows WooCommerce merchants to create visual mix-and-match product packs.
+MahimZaman Build-a-Bundle for WooCommerce allows WooCommerce merchants to create visual mix-and-match product packs.
 
 A customer should be able to:
 
@@ -25,9 +25,9 @@ The first release is optimized for products such as functional shots, while the 
 
 # 2. Core WooCommerce Product Type
 
-MixPack Bundles will introduce a custom WooCommerce product type:
+MahimZaman Build-a-Bundle for WooCommerce will introduce a custom WooCommerce product type:
 
-**MixPack Bundle**
+**Build-a-Bundle**
 
 The product will still use normal WooCommerce functionality for:
 
@@ -49,7 +49,7 @@ No separate top-level WordPress admin menu will be required for creating bundles
 
 # 3. Pack Sizes
 
-A MixPack Bundle may contain one or more configurable pack sizes.
+A Build-a-Bundle may contain one or more configurable pack sizes.
 
 Example:
 
@@ -488,7 +488,7 @@ The presentation should be concise rather than displaying internal metadata.
 
 # 25. Refunds
 
-MixPack Bundles will preserve component information sufficiently for WooCommerce administrators to understand what was purchased when processing refunds.
+MahimZaman Build-a-Bundle for WooCommerce will preserve component information sufficiently for WooCommerce administrators to understand what was purchased when processing refunds.
 
 Version 1.0 will use WooCommerce's existing refund system rather than implementing a separate refund engine.
 
@@ -508,7 +508,7 @@ Exact tax handling will depend on the selected bundle pricing strategy and WooCo
 
 Where product components affect shipping, their relevant WooCommerce product information should remain available to the bundle/cart/order system.
 
-MixPack Bundles will not implement a separate shipping-rate engine.
+MahimZaman Build-a-Bundle for WooCommerce will not implement a separate shipping-rate engine.
 
 ---
 
@@ -606,7 +606,7 @@ Product cards should adapt naturally to the available container width rather tha
 
 Plugin frontend styles must be scoped under plugin-specific classes.
 
-MixPack Bundles must avoid global CSS selectors that alter unrelated WordPress, WooCommerce, or theme elements.
+MahimZaman Build-a-Bundle for WooCommerce must avoid global CSS selectors that alter unrelated WordPress, WooCommerce, or theme elements.
 
 The interface should inherit sensible typography and colors from the active theme where practical.
 
@@ -669,7 +669,7 @@ All merchant-facing and customer-facing strings must be translation-ready.
 
 Text domain:
 
-`mixpack-bundles`
+`mahimzaman-build-a-bundle-for-woocommerce`
 
 The plugin must follow WordPress internationalization practices.
 
@@ -677,7 +677,7 @@ The plugin must follow WordPress internationalization practices.
 
 # 40. Plugin Configuration Philosophy
 
-MixPack Bundles should require almost no global configuration.
+MahimZaman Build-a-Bundle for WooCommerce should require almost no global configuration.
 
 Normal workflow:
 
@@ -689,7 +689,7 @@ Normal workflow:
 
 ↓
 
-**Choose MixPack Bundle**
+**Choose Build-a-Bundle**
 
 ↓
 
@@ -757,7 +757,7 @@ Extension points should only be added where they have a clear use case.
 
 # 43. Version 1.0 Success Criteria
 
-Version 1.0 is considered functionally successful when a merchant can create a MixPack Bundle, configure pack sizes, choose eligible simple products or categories, select a pricing mode, and publish the product without writing code.
+Version 1.0 is considered functionally successful when a merchant can create a Build-a-Bundle, configure pack sizes, choose eligible simple products or categories, select a pricing mode, and publish the product without writing code.
 
 A customer must then be able to choose a pack size, mix and match eligible products, see live selection progress, complete the required quantity, add the valid bundle to cart, checkout normally, and receive an order containing the correct bundle configuration.
 

@@ -1,15 +1,15 @@
 <?php
 
-namespace MixPack\Bundles\Admin;
+namespace MahimZaman\BuildABundle\Admin;
 
-use MixPack\Bundles\Contracts\Module;
+use MahimZaman\BuildABundle\Contracts\Module;
 
 defined('ABSPATH') || exit;
 
 final class SettingsModule implements Module
 {
 
-    const OPTION_KEY = 'mixpack_bundles_appearance';
+    const OPTION_KEY = 'mahimzaman_bab_appearance';
 
     public function register()
     {
@@ -17,7 +17,7 @@ final class SettingsModule implements Module
         add_action('admin_init', array($this, 'register_settings'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_assets'));
         add_action(
-            'admin_post_mixpack_bundles_reset_appearance',
+            'admin_post_mahimzaman_bab_reset_appearance',
             array($this, 'reset_settings')
         );
     }
@@ -50,10 +50,10 @@ final class SettingsModule implements Module
     public function add_menu()
     {
         add_menu_page(
-            __('MixPack Settings', 'mixpack-bundles'),
-            __('MixPack', 'mixpack-bundles'),
+            __('Build-a-Bundle Settings', 'mahimzaman-build-a-bundle-for-woocommerce'),
+            __('Build-a-Bundle', 'mahimzaman-build-a-bundle-for-woocommerce'),
             'manage_woocommerce',
-            'mixpack-bundles',
+            'mahimzaman-build-a-bundle-for-woocommerce',
             array($this, 'render_page'),
             'dashicons-products',
             56
@@ -63,7 +63,7 @@ final class SettingsModule implements Module
     public function register_settings()
     {
         register_setting(
-            'mixpack_bundles_appearance',
+            'mahimzaman_bab_appearance',
             self::OPTION_KEY,
             array(
                 'type'              => 'array',
@@ -91,24 +91,24 @@ final class SettingsModule implements Module
 
     public function enqueue_assets($hook)
     {
-        if ('toplevel_page_mixpack-bundles' !== $hook) {
+        if ('toplevel_page_mahimzaman-build-a-bundle-for-woocommerce' !== $hook) {
             return;
         }
 
         wp_enqueue_style('wp-color-picker');
 
         wp_enqueue_style(
-            'mixpack-bundles-settings',
-            MIXPACK_BUNDLES_URL . 'assets/css/settings.css',
+            'mahimzaman-build-a-bundle-for-woocommerce-settings',
+            MAHIMZAMAN_BAB_URL . 'assets/css/settings.css',
             array('wp-color-picker'),
-            MIXPACK_BUNDLES_VERSION
+            MAHIMZAMAN_BAB_VERSION
         );
 
         wp_enqueue_script(
-            'mixpack-bundles-settings',
-            MIXPACK_BUNDLES_URL . 'assets/js/settings.js',
+            'mahimzaman-build-a-bundle-for-woocommerce-settings',
+            MAHIMZAMAN_BAB_URL . 'assets/js/settings.js',
             array('jquery', 'wp-color-picker'),
-            MIXPACK_BUNDLES_VERSION,
+            MAHIMZAMAN_BAB_VERSION,
             true
         );
     }
@@ -117,11 +117,11 @@ final class SettingsModule implements Module
     {
         if (! current_user_can('manage_woocommerce')) {
             wp_die(
-                esc_html__('You are not allowed to perform this action.', 'mixpack-bundles')
+                esc_html__('You are not allowed to perform this action.', 'mahimzaman-build-a-bundle-for-woocommerce')
             );
         }
 
-        check_admin_referer('mixpack_bundles_reset_appearance');
+        check_admin_referer('mahimzaman_bab_reset_appearance');
 
         update_option(
             self::OPTION_KEY,
@@ -130,7 +130,7 @@ final class SettingsModule implements Module
         );
 
         wp_safe_redirect(
-            admin_url('admin.php?page=mixpack-bundles')
+            admin_url('admin.php?page=mahimzaman-build-a-bundle-for-woocommerce')
         );
 
         exit;
@@ -144,77 +144,77 @@ final class SettingsModule implements Module
 
         $settings = self::get_values();
 ?>
-        <div class="wrap mixpack-settings">
+        <div class="wrap mahimzaman-bab-settings">
 
-            <div class="mixpack-settings-header">
+            <div class="mahimzaman-bab-settings-header">
                 <div>
-                    <h1><?php esc_html_e('MixPack Settings', 'mixpack-bundles'); ?></h1>
+                    <h1><?php esc_html_e('Build-a-Bundle Settings', 'mahimzaman-build-a-bundle-for-woocommerce'); ?></h1>
                     <p>
-                        <?php esc_html_e('Customize the global appearance of your MixPack bundle builder.', 'mixpack-bundles'); ?>
+                        <?php esc_html_e('Customize the global appearance of your Build-a-Bundle bundle builder.', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
                     </p>
                 </div>
             </div>
 
             <form method="post" action="options.php">
-                <?php settings_fields('mixpack_bundles_appearance'); ?>
+                <?php settings_fields('mahimzaman_bab_appearance'); ?>
 
-                <div class="mixpack-settings-grid">
+                <div class="mahimzaman-bab-settings-grid">
 
-                    <div class="mixpack-settings-card">
-                        <h2><?php esc_html_e('Brand Colors', 'mixpack-bundles'); ?></h2>
+                    <div class="mahimzaman-bab-settings-card">
+                        <h2><?php esc_html_e('Brand Colors', 'mahimzaman-build-a-bundle-for-woocommerce'); ?></h2>
 
                         <?php
                         $this->color_field(
                             'primary',
-                            __('Accent color', 'mixpack-bundles'),
+                            __('Accent color', 'mahimzaman-build-a-bundle-for-woocommerce'),
                             $settings
                         );
 
                         $this->color_field(
                             'button_bg',
-                            __('Button background', 'mixpack-bundles'),
+                            __('Button background', 'mahimzaman-build-a-bundle-for-woocommerce'),
                             $settings
                         );
 
                         $this->color_field(
                             'button_text',
-                            __('Button text', 'mixpack-bundles'),
+                            __('Button text', 'mahimzaman-build-a-bundle-for-woocommerce'),
                             $settings
                         );
                         ?>
                     </div>
 
-                    <div class="mixpack-settings-card">
-                        <h2><?php esc_html_e('Builder Colors', 'mixpack-bundles'); ?></h2>
+                    <div class="mahimzaman-bab-settings-card">
+                        <h2><?php esc_html_e('Builder Colors', 'mahimzaman-build-a-bundle-for-woocommerce'); ?></h2>
 
                         <?php
                         $this->color_field(
                             'builder_bg',
-                            __('Builder background', 'mixpack-bundles'),
+                            __('Builder background', 'mahimzaman-build-a-bundle-for-woocommerce'),
                             $settings
                         );
 
                         $this->color_field(
                             'card_bg',
-                            __('Product card background', 'mixpack-bundles'),
+                            __('Product card background', 'mahimzaman-build-a-bundle-for-woocommerce'),
                             $settings
                         );
 
                         $this->color_field(
                             'text',
-                            __('Text color', 'mixpack-bundles'),
+                            __('Text color', 'mahimzaman-build-a-bundle-for-woocommerce'),
                             $settings
                         );
 
                         $this->color_field(
                             'muted',
-                            __('Muted text color', 'mixpack-bundles'),
+                            __('Muted text color', 'mahimzaman-build-a-bundle-for-woocommerce'),
                             $settings
                         );
 
                         $this->color_field(
                             'border',
-                            __('Border color', 'mixpack-bundles'),
+                            __('Border color', 'mahimzaman-build-a-bundle-for-woocommerce'),
                             $settings
                         );
                         ?>
@@ -222,8 +222,8 @@ final class SettingsModule implements Module
 
                 </div>
 
-                <div class="mixpack-settings-actions">
-                    <?php submit_button(__('Save Changes', 'mixpack-bundles'), 'primary', 'submit', false); ?>
+                <div class="mahimzaman-bab-settings-actions">
+                    <?php submit_button(__('Save Changes', 'mahimzaman-build-a-bundle-for-woocommerce'), 'primary', 'submit', false); ?>
                 </div>
 
             </form>
@@ -231,16 +231,16 @@ final class SettingsModule implements Module
             <form
                 method="post"
                 action="<?php echo esc_url(admin_url('admin-post.php')); ?>"
-                class="mixpack-reset-form">
+                class="mahimzaman-bab-reset-form">
                 <input
                     type="hidden"
                     name="action"
-                    value="mixpack_bundles_reset_appearance">
+                    value="mahimzaman_bab_reset_appearance">
 
-                <?php wp_nonce_field('mixpack_bundles_reset_appearance'); ?>
+                <?php wp_nonce_field('mahimzaman_bab_reset_appearance'); ?>
 
                 <button type="submit" class="button">
-                    <?php esc_html_e('Reset to Defaults', 'mixpack-bundles'); ?>
+                    <?php esc_html_e('Reset to Defaults', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
                 </button>
             </form>
 
@@ -252,18 +252,18 @@ final class SettingsModule implements Module
     {
         $defaults = self::defaults();
     ?>
-        <div class="mixpack-setting-row">
-            <div class="mixpack-setting-label">
-                <label for="mixpack_<?php echo esc_attr($key); ?>">
+        <div class="mahimzaman-bab-setting-row">
+            <div class="mahimzaman-bab-setting-label">
+                <label for="mahimzaman_bab_<?php echo esc_attr($key); ?>">
                     <?php echo esc_html($label); ?>
                 </label>
             </div>
 
-            <div class="mixpack-setting-control">
+            <div class="mahimzaman-bab-setting-control">
                 <input
-                    id="mixpack_<?php echo esc_attr($key); ?>"
+                    id="mahimzaman_bab_<?php echo esc_attr($key); ?>"
                     type="text"
-                    class="mixpack-color-field"
+                    class="mahimzaman-bab-color-field"
                     name="<?php echo esc_attr(self::OPTION_KEY); ?>[<?php echo esc_attr($key); ?>]"
                     value="<?php echo esc_attr($settings[$key]); ?>"
                     data-default-color="<?php echo esc_attr($defaults[$key]); ?>">

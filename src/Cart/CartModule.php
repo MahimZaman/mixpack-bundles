@@ -1,11 +1,11 @@
 <?php
 
-namespace MixPack\Bundles\Cart;
+namespace MahimZaman\BuildABundle\Cart;
 
-use MixPack\Bundles\Contracts\Module;
-use MixPack\Bundles\Pricing\PricingEngine;
-use MixPack\Bundles\Product\BundleProduct;
-use MixPack\Bundles\Validation\SelectionValidator;
+use MahimZaman\BuildABundle\Contracts\Module;
+use MahimZaman\BuildABundle\Pricing\PricingEngine;
+use MahimZaman\BuildABundle\Product\BundleProduct;
+use MahimZaman\BuildABundle\Validation\SelectionValidator;
 
 defined('ABSPATH') || exit;
 
@@ -46,14 +46,14 @@ final class CartModule implements Module
         }
 
         if (
-            empty($_POST['mixpack_cart_nonce']) ||
+            empty($_POST['mahimzaman_bab_cart_nonce']) ||
             ! wp_verify_nonce(
-                sanitize_text_field(wp_unslash($_POST['mixpack_cart_nonce'])),
-                'mixpack_add_to_cart'
+                sanitize_text_field(wp_unslash($_POST['mahimzaman_bab_cart_nonce'])),
+                'mahimzaman_bab_add_to_cart'
             )
         ) {
             wc_add_notice(
-                __('Unable to validate the bundle request. Please try again.', 'mixpack-bundles'),
+                __('Unable to validate the bundle request. Please try again.', 'mahimzaman-build-a-bundle-for-woocommerce'),
                 'error'
             );
 
@@ -62,7 +62,7 @@ final class CartModule implements Module
 
         if (! $this->validate_edit_request($product_id)) {
             wc_add_notice(
-                __('The bundle you are editing is no longer available in your cart.', 'mixpack-bundles'),
+                __('The bundle you are editing is no longer available in your cart.', 'mahimzaman-build-a-bundle-for-woocommerce'),
                 'error'
             );
 
@@ -95,7 +95,7 @@ final class CartModule implements Module
 
         if (null === $price) {
             wc_add_notice(
-                __('The bundle price could not be calculated.', 'mixpack-bundles'),
+                __('The bundle price could not be calculated.', 'mahimzaman-build-a-bundle-for-woocommerce'),
                 'error'
             );
 
@@ -116,12 +116,12 @@ final class CartModule implements Module
         $pack       = $this->get_pack_from_request();
         $selections = $this->get_selections_from_request();
 
-        $cart_item_data['mixpack'] = array(
+        $cart_item_data['mahimzaman_bab'] = array(
             'pack'       => $pack,
             'selections' => $selections,
         );
 
-        $cart_item_data['mixpack_key'] = md5(
+        $cart_item_data['mahimzaman_bab_key'] = md5(
             wp_json_encode(
                 array(
                     'product_id' => $product_id,
@@ -144,7 +144,7 @@ final class CartModule implements Module
 
         foreach ($cart->get_cart() as $cart_item) {
             if (
-                empty($cart_item['mixpack']) ||
+                empty($cart_item['mahimzaman_bab']) ||
                 ! $cart_item['data'] instanceof BundleProduct
             ) {
                 continue;
@@ -152,8 +152,8 @@ final class CartModule implements Module
 
             $price = $pricing->calculate(
                 $cart_item['data'],
-                $cart_item['mixpack']['pack'],
-                $cart_item['mixpack']['selections']
+                $cart_item['mahimzaman_bab']['pack'],
+                $cart_item['mahimzaman_bab']['selections']
             );
 
             if (null !== $price) {
@@ -162,7 +162,7 @@ final class CartModule implements Module
 
             $cart_item['data']->set_weight(
                 $this->get_bundle_weight(
-                    $cart_item['mixpack']['selections']
+                    $cart_item['mahimzaman_bab']['selections']
                 )
             );
         }
@@ -180,13 +180,13 @@ final class CartModule implements Module
 
         foreach (WC()->cart->get_cart() as $cart_item) {
             if (
-                ! empty($cart_item['mixpack']) &&
+                ! empty($cart_item['mahimzaman_bab']) &&
                 $cart_item['data'] instanceof BundleProduct
             ) {
                 $errors = $validator->validate(
                     $cart_item['data'],
-                    $cart_item['mixpack']['pack'],
-                    $cart_item['mixpack']['selections'],
+                    $cart_item['mahimzaman_bab']['pack'],
+                    $cart_item['mahimzaman_bab']['selections'],
                     $cart_item['quantity']
                 );
 
@@ -194,7 +194,7 @@ final class CartModule implements Module
                     $this->add_error_notice($message);
                 }
 
-                foreach ($cart_item['mixpack']['selections'] as $product_id => $quantity) {
+                foreach ($cart_item['mahimzaman_bab']['selections'] as $product_id => $quantity) {
                     $product = wc_get_product($product_id);
 
                     if (! $product) {
@@ -230,27 +230,27 @@ final class CartModule implements Module
 
     public function display_item_data($item_data, $cart_item)
     {
-        if (empty($cart_item['mixpack'])) {
+        if (empty($cart_item['mahimzaman_bab'])) {
             return $item_data;
         }
 
-        $pack = absint($cart_item['mixpack']['pack']);
+        $pack = absint($cart_item['mahimzaman_bab']['pack']);
 
         $pack_label = sprintf(
             /* translators: %d: Number of products in the pack. */
-            __('%d-Pack', 'mixpack-bundles'),
+            __('%d-Pack', 'mahimzaman-build-a-bundle-for-woocommerce'),
             $pack
         );
 
         $item_data[] = array(
-            'key'     => __('Pack', 'mixpack-bundles'),
+            'key'     => __('Pack', 'mahimzaman-build-a-bundle-for-woocommerce'),
             'value'   => $pack_label,
             'display' => $pack_label,
         );
 
         $contents = array();
 
-        foreach ($cart_item['mixpack']['selections'] as $product_id => $quantity) {
+        foreach ($cart_item['mahimzaman_bab']['selections'] as $product_id => $quantity) {
             $product = wc_get_product($product_id);
 
             if (! $product) {
@@ -268,7 +268,7 @@ final class CartModule implements Module
             $content = implode(', ', $contents);
 
             $item_data[] = array(
-                'key'     => __('Contents', 'mixpack-bundles'),
+                'key'     => __('Contents', 'mahimzaman-build-a-bundle-for-woocommerce'),
                 'value'   => $content,
                 'display' => $content,
             );
@@ -279,7 +279,7 @@ final class CartModule implements Module
 
     public function add_edit_link($name, $cart_item, $cart_item_key)
     {
-        if (! is_cart() || empty($cart_item['mixpack'])) {
+        if (! is_cart() || empty($cart_item['mahimzaman_bab'])) {
             return $name;
         }
 
@@ -290,21 +290,21 @@ final class CartModule implements Module
         }
 
         $url = add_query_arg(
-            'mixpack_edit',
+            'mahimzaman_bab_edit',
             $cart_item_key,
             $product->get_permalink()
         );
 
         $url = wp_nonce_url(
             $url,
-            'mixpack_edit_' . $cart_item_key,
-            'mixpack_edit_nonce'
+            'mahimzaman_bab_edit_' . $cart_item_key,
+            'mahimzaman_bab_edit_nonce'
         );
 
         return $name . sprintf(
             '<div><a href="%s">%s</a></div>',
             esc_url($url),
-            esc_html__('Edit Bundle', 'mixpack-bundles')
+            esc_html__('Edit Bundle', 'mahimzaman-build-a-bundle-for-woocommerce')
         );
     }
 
@@ -353,7 +353,7 @@ final class CartModule implements Module
 
         return ! empty($item)
             && (int) $item['product_id'] === (int) $product_id
-            && ! empty($item['mixpack']);
+            && ! empty($item['mahimzaman_bab']);
     }
 
     private function add_stock_requirement(&$requirements, &$products, $product, $quantity)
@@ -393,7 +393,7 @@ final class CartModule implements Module
                         /* translators: %s: Product name. */
                         __(
                             '%s is out of stock.',
-                            'mixpack-bundles'
+                            'mahimzaman-build-a-bundle-for-woocommerce'
                         ),
                         $product->get_name()
                     )
@@ -415,7 +415,7 @@ final class CartModule implements Module
                         /* translators: 1: Product name, 2: Available stock quantity. */
                         __(
                             'There is not enough stock available for %1$s. %2$d available.',
-                            'mixpack-bundles'
+                            'mahimzaman-build-a-bundle-for-woocommerce'
                         ),
                         $product->get_name(),
                         max(0, $available)
@@ -477,39 +477,39 @@ final class CartModule implements Module
             'selections'    => array(),
         );
 
-        if (empty($_POST['mixpack_cart_nonce'])) {
+        if (empty($_POST['mahimzaman_bab_cart_nonce'])) {
             return $data;
         }
 
         $nonce = sanitize_text_field(
-            wp_unslash($_POST['mixpack_cart_nonce'])
+            wp_unslash($_POST['mahimzaman_bab_cart_nonce'])
         );
 
-        if (! wp_verify_nonce($nonce, 'mixpack_add_to_cart')) {
+        if (! wp_verify_nonce($nonce, 'mahimzaman_bab_add_to_cart')) {
             return $data;
         }
 
         $data['valid'] = true;
 
-        if (isset($_POST['mixpack_edit_cart_key'])) {
+        if (isset($_POST['mahimzaman_bab_edit_cart_key'])) {
             $data['edit_cart_key'] = sanitize_text_field(
-                wp_unslash($_POST['mixpack_edit_cart_key'])
+                wp_unslash($_POST['mahimzaman_bab_edit_cart_key'])
             );
         }
 
-        if (isset($_POST['mixpack_pack'])) {
+        if (isset($_POST['mahimzaman_bab_pack'])) {
             $data['pack'] = absint(
-                wp_unslash($_POST['mixpack_pack'])
+                wp_unslash($_POST['mahimzaman_bab_pack'])
             );
         }
 
         if (
-            isset($_POST['mixpack_products']) &&
-            is_array($_POST['mixpack_products'])
+            isset($_POST['mahimzaman_bab_products']) &&
+            is_array($_POST['mahimzaman_bab_products'])
         ) {
             $items = array_map(
                 'absint',
-                wp_unslash($_POST['mixpack_products'])
+                wp_unslash($_POST['mahimzaman_bab_products'])
             );
 
             foreach ($items as $product_id => $quantity) {

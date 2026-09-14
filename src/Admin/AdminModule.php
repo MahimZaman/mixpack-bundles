@@ -1,9 +1,9 @@
 <?php
 
-namespace MixPack\Bundles\Admin;
+namespace MahimZaman\BuildABundle\Admin;
 
-use MixPack\Bundles\Contracts\Module;
-use MixPack\Bundles\Product\BundleProduct;
+use MahimZaman\BuildABundle\Contracts\Module;
+use MahimZaman\BuildABundle\Product\BundleProduct;
 
 defined('ABSPATH') || exit;
 
@@ -20,16 +20,16 @@ final class AdminModule implements Module
 
     public function add_product_tab($tabs)
     {
-        $tabs['mixpack_bundle'] = array(
-            'label'    => __('MixPack', 'mixpack-bundles'),
-            'target'   => 'mixpack_bundle_product_data',
-            'class'    => array('show_if_mixpack_bundle'),
+        $tabs['mahimzaman_bundle'] = array(
+            'label'    => __('Build-a-Bundle', 'mahimzaman-build-a-bundle-for-woocommerce'),
+            'target'   => 'mahimzaman_bundle_product_data',
+            'class'    => array('show_if_mahimzaman_bundle'),
             'priority' => 20,
         );
 
         foreach (array('general', 'inventory', 'shipping', 'linked_product', 'attribute', 'variations') as $key) {
             if (isset($tabs[$key])) {
-                $tabs[$key]['class'][] = 'hide_if_mixpack_bundle';
+                $tabs[$key]['class'][] = 'hide_if_mahimzaman_bundle';
             }
         }
 
@@ -43,22 +43,22 @@ final class AdminModule implements Module
         $config = $this->get_config($product_object);
         $group  = $config['groups'][0];
 
-        wp_nonce_field('mixpack_bundles_save_config', 'mixpack_bundles_nonce');
+        wp_nonce_field('mahimzaman_bab_save_config', 'mahimzaman_bab_nonce');
 ?>
-        <div id="mixpack_bundle_product_data" class="panel woocommerce_options_panel hidden">
+        <div id="mahimzaman_bundle_product_data" class="panel woocommerce_options_panel hidden">
 
             <div class="options_group">
                 <?php
                 woocommerce_wp_select(
                     array(
-                        'id'          => 'mixpack_pricing_mode',
-                        'label'       => __('Pricing method', 'mixpack-bundles'),
-                        'description' => __('Choose how the bundle price is calculated.', 'mixpack-bundles'),
+                        'id'          => 'mahimzaman_bab_pricing_mode',
+                        'label'       => __('Pricing method', 'mahimzaman-build-a-bundle-for-woocommerce'),
+                        'description' => __('Choose how the bundle price is calculated.', 'mahimzaman-build-a-bundle-for-woocommerce'),
                         'desc_tip'    => true,
                         'value'       => $config['pricing_mode'],
                         'options'     => array(
-                            'fixed'      => __('Fixed price per pack', 'mixpack-bundles'),
-                            'calculated' => __('Calculate from selected products', 'mixpack-bundles'),
+                            'fixed'      => __('Fixed price per pack', 'mahimzaman-build-a-bundle-for-woocommerce'),
+                            'calculated' => __('Calculate from selected products', 'mahimzaman-build-a-bundle-for-woocommerce'),
                         ),
                     )
                 );
@@ -66,51 +66,51 @@ final class AdminModule implements Module
             </div>
 
             <div class="options_group">
-                <p class="form-field mixpack-pack-sizes-field">
+                <p class="form-field mahimzaman-bab-pack-sizes-field">
                     <label>
-                        <?php esc_html_e('Pack sizes', 'mixpack-bundles'); ?>
+                        <?php esc_html_e('Pack sizes', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
 
                         <?php
                         echo wp_kses_post(
                             wc_help_tip(
-                                __('Add the pack quantities customers can choose from.', 'mixpack-bundles')
+                                __('Add the pack quantities customers can choose from.', 'mahimzaman-build-a-bundle-for-woocommerce')
                             )
                         );
                         ?>
                     </label>
 
-                    <span class="mixpack-field-content">
-                        <span id="mixpack-pack-rows" class="mixpack-pack-rows">
+                    <span class="mahimzaman-bab-field-content">
+                        <span id="mahimzaman-bab-pack-rows" class="mahimzaman-bab-pack-rows">
 
                             <?php foreach ($config['pack_sizes'] as $pack) : ?>
-                                <span class="mixpack-pack-row">
+                                <span class="mahimzaman-bab-pack-row">
 
-                                    <span class="mixpack-pack-input">
-                                        <span class="mixpack-input-label">
-                                            <?php esc_html_e('Quantity', 'mixpack-bundles'); ?>
+                                    <span class="mahimzaman-bab-pack-input">
+                                        <span class="mahimzaman-bab-input-label">
+                                            <?php esc_html_e('Quantity', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
                                         </span>
 
                                         <input
                                             type="number"
-                                            name="mixpack_pack_quantity[]"
+                                            name="mahimzaman_bab_pack_quantity[]"
                                             min="1"
                                             step="1"
                                             value="<?php echo esc_attr($pack['quantity']); ?>">
                                     </span>
 
-                                    <span class="mixpack-pack-input mixpack-price-field">
-                                        <span class="mixpack-input-label">
-                                            <?php esc_html_e('Price', 'mixpack-bundles'); ?>
+                                    <span class="mahimzaman-bab-pack-input mahimzaman-bab-price-field">
+                                        <span class="mahimzaman-bab-input-label">
+                                            <?php esc_html_e('Price', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
                                         </span>
 
-                                        <span class="mixpack-price-input">
-                                            <span class="mixpack-currency">
+                                        <span class="mahimzaman-bab-price-input">
+                                            <span class="mahimzaman-bab-currency">
                                                 <?php echo esc_html(get_woocommerce_currency_symbol()); ?>
                                             </span>
 
                                             <input
                                                 type="text"
-                                                name="mixpack_pack_price[]"
+                                                name="mahimzaman_bab_pack_price[]"
                                                 class="wc_input_price"
                                                 value="<?php echo esc_attr($pack['price']); ?>">
                                         </span>
@@ -118,8 +118,8 @@ final class AdminModule implements Module
 
                                     <button
                                         type="button"
-                                        class="button-link-delete mixpack-remove-pack">
-                                        <?php esc_html_e('Remove', 'mixpack-bundles'); ?>
+                                        class="button-link-delete mahimzaman-bab-remove-pack">
+                                        <?php esc_html_e('Remove', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
                                     </button>
 
                                 </span>
@@ -129,9 +129,9 @@ final class AdminModule implements Module
 
                         <button
                             type="button"
-                            class="button mixpack-add-pack"
-                            id="mixpack-add-pack">
-                            <?php esc_html_e('Add pack size', 'mixpack-bundles'); ?>
+                            class="button mahimzaman-bab-add-pack"
+                            id="mahimzaman-bab-add-pack">
+                            <?php esc_html_e('Add pack size', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
                         </button>
                     </span>
                 </p>
@@ -141,38 +141,38 @@ final class AdminModule implements Module
                 <?php
                 woocommerce_wp_select(
                     array(
-                        'id'          => 'mixpack_product_source',
-                        'label'       => __('Products from', 'mixpack-bundles'),
-                        'description' => __('Choose individual products or use products from selected categories.', 'mixpack-bundles'),
+                        'id'          => 'mahimzaman_bab_product_source',
+                        'label'       => __('Products from', 'mahimzaman-build-a-bundle-for-woocommerce'),
+                        'description' => __('Choose individual products or use products from selected categories.', 'mahimzaman-build-a-bundle-for-woocommerce'),
                         'desc_tip'    => true,
                         'value'       => $group['source'],
                         'options'     => array(
-                            'products'   => __('Selected products', 'mixpack-bundles'),
-                            'categories' => __('Product categories', 'mixpack-bundles'),
+                            'products'   => __('Selected products', 'mahimzaman-build-a-bundle-for-woocommerce'),
+                            'categories' => __('Product categories', 'mahimzaman-build-a-bundle-for-woocommerce'),
                         ),
                     )
                 );
                 ?>
 
-                <p class="form-field mixpack-source-products">
-                    <label for="mixpack_product_ids">
-                        <?php esc_html_e('Products', 'mixpack-bundles'); ?>
+                <p class="form-field mahimzaman-bab-source-products">
+                    <label for="mahimzaman_bab_product_ids">
+                        <?php esc_html_e('Products', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
 
                         <?php
                         echo wp_kses_post(
                             wc_help_tip(
-                                __('Search for the simple products customers can add to this bundle.', 'mixpack-bundles')
+                                __('Search for the simple products customers can add to this bundle.', 'mahimzaman-build-a-bundle-for-woocommerce')
                             )
                         );
                         ?>
                     </label>
 
                     <select
-                        id="mixpack_product_ids"
-                        name="mixpack_product_ids[]"
+                        id="mahimzaman_bab_product_ids"
+                        name="mahimzaman_bab_product_ids[]"
                         class="wc-product-search"
                         multiple="multiple"
-                        data-placeholder="<?php esc_attr_e('Search for products…', 'mixpack-bundles'); ?>"
+                        data-placeholder="<?php esc_attr_e('Search for products…', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>"
                         data-action="woocommerce_json_search_products"
                         data-exclude="<?php echo esc_attr($post->ID); ?>">
                         <?php foreach ($group['product_ids'] as $product_id) : ?>
@@ -189,25 +189,25 @@ final class AdminModule implements Module
                     </select>
                 </p>
 
-                <p class="form-field mixpack-source-categories">
-                    <label for="mixpack_category_ids">
-                        <?php esc_html_e('Categories', 'mixpack-bundles'); ?>
+                <p class="form-field mahimzaman-bab-source-categories">
+                    <label for="mahimzaman_bab_category_ids">
+                        <?php esc_html_e('Categories', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>
 
                         <?php
                         echo wp_kses_post(
                             wc_help_tip(
-                                __('Products from these categories will be available in the bundle.', 'mixpack-bundles')
+                                __('Products from these categories will be available in the bundle.', 'mahimzaman-build-a-bundle-for-woocommerce')
                             )
                         );
                         ?>
                     </label>
 
                     <select
-                        id="mixpack_category_ids"
-                        name="mixpack_category_ids[]"
+                        id="mahimzaman_bab_category_ids"
+                        name="mahimzaman_bab_category_ids[]"
                         class="wc-enhanced-select"
                         multiple="multiple"
-                        data-placeholder="<?php esc_attr_e('Choose categories…', 'mixpack-bundles'); ?>">
+                        data-placeholder="<?php esc_attr_e('Choose categories…', 'mahimzaman-build-a-bundle-for-woocommerce'); ?>">
                         <?php
                         $categories = get_terms(
                             array(
@@ -236,9 +236,9 @@ final class AdminModule implements Module
                 <?php
                 woocommerce_wp_checkbox(
                     array(
-                        'id'          => 'mixpack_allow_duplicates',
-                        'label'       => __('Multiple quantities', 'mixpack-bundles'),
-                        'description' => __('Allow customers to choose more than one of the same product.', 'mixpack-bundles'),
+                        'id'          => 'mahimzaman_bab_allow_duplicates',
+                        'label'       => __('Multiple quantities', 'mahimzaman-build-a-bundle-for-woocommerce'),
+                        'description' => __('Allow customers to choose more than one of the same product.', 'mahimzaman-build-a-bundle-for-woocommerce'),
                         'value'       => $group['allow_duplicates'] ? 'yes' : 'no',
                     )
                 );
@@ -251,15 +251,15 @@ final class AdminModule implements Module
 
     public function save($product)
     {
-        if (empty($_POST['mixpack_bundles_nonce'])) {
+        if (empty($_POST['mahimzaman_bab_nonce'])) {
             return;
         }
 
         $nonce = sanitize_text_field(
-            wp_unslash($_POST['mixpack_bundles_nonce'])
+            wp_unslash($_POST['mahimzaman_bab_nonce'])
         );
 
-        if (! wp_verify_nonce($nonce, 'mixpack_bundles_save_config')) {
+        if (! wp_verify_nonce($nonce, 'mahimzaman_bab_save_config')) {
             return;
         }
 
@@ -271,7 +271,7 @@ final class AdminModule implements Module
             ? sanitize_key(wp_unslash($_POST['product-type']))
             : '';
 
-        if ('mixpack_bundle' !== $product_type) {
+        if ('mahimzaman_bundle' !== $product_type) {
             return;
         }
 
@@ -279,47 +279,47 @@ final class AdminModule implements Module
             return;
         }
 
-        $pricing_mode = isset($_POST['mixpack_pricing_mode'])
-            ? sanitize_key(wp_unslash($_POST['mixpack_pricing_mode']))
+        $pricing_mode = isset($_POST['mahimzaman_bab_pricing_mode'])
+            ? sanitize_key(wp_unslash($_POST['mahimzaman_bab_pricing_mode']))
             : 'fixed';
 
         if (! in_array($pricing_mode, array('fixed', 'calculated'), true)) {
             $pricing_mode = 'fixed';
         }
 
-        $source = isset($_POST['mixpack_product_source'])
-            ? sanitize_key(wp_unslash($_POST['mixpack_product_source']))
+        $source = isset($_POST['mahimzaman_bab_product_source'])
+            ? sanitize_key(wp_unslash($_POST['mahimzaman_bab_product_source']))
             : 'products';
 
         if (! in_array($source, array('products', 'categories'), true)) {
             $source = 'products';
         }
 
-        $pack_quantities = isset($_POST['mixpack_pack_quantity'])
+        $pack_quantities = isset($_POST['mahimzaman_bab_pack_quantity'])
             ? array_map(
                 'absint',
-                (array) wp_unslash($_POST['mixpack_pack_quantity'])
+                (array) wp_unslash($_POST['mahimzaman_bab_pack_quantity'])
             )
             : array();
 
-        $pack_prices = isset($_POST['mixpack_pack_price'])
+        $pack_prices = isset($_POST['mahimzaman_bab_pack_price'])
             ? array_map(
                 'sanitize_text_field',
-                (array) wp_unslash($_POST['mixpack_pack_price'])
+                (array) wp_unslash($_POST['mahimzaman_bab_pack_price'])
             )
             : array();
 
-        $product_ids = isset($_POST['mixpack_product_ids'])
+        $product_ids = isset($_POST['mahimzaman_bab_product_ids'])
             ? array_map(
                 'absint',
-                (array) wp_unslash($_POST['mixpack_product_ids'])
+                (array) wp_unslash($_POST['mahimzaman_bab_product_ids'])
             )
             : array();
 
-        $category_ids = isset($_POST['mixpack_category_ids'])
+        $category_ids = isset($_POST['mahimzaman_bab_category_ids'])
             ? array_map(
                 'absint',
-                (array) wp_unslash($_POST['mixpack_category_ids'])
+                (array) wp_unslash($_POST['mahimzaman_bab_category_ids'])
             )
             : array();
 
@@ -333,7 +333,7 @@ final class AdminModule implements Module
             'groups'       => array(
                 array(
                     'id'               => 'default',
-                    'label'            => __('Products', 'mixpack-bundles'),
+                    'label'            => __('Products', 'mahimzaman-build-a-bundle-for-woocommerce'),
                     'source'           => $source,
                     'product_ids'      => $this->validate_product_ids(
                         $product->get_id(),
@@ -342,7 +342,7 @@ final class AdminModule implements Module
                     'category_ids'     => $this->validate_category_ids(
                         $category_ids
                     ),
-                    'allow_duplicates' => isset($_POST['mixpack_allow_duplicates']),
+                    'allow_duplicates' => isset($_POST['mahimzaman_bab_allow_duplicates']),
                 ),
             ),
         );
@@ -369,17 +369,17 @@ final class AdminModule implements Module
         }
 
         wp_enqueue_style(
-            'mixpack-bundles-admin',
-            MIXPACK_BUNDLES_URL . 'assets/css/admin.css',
+            'mahimzaman-build-a-bundle-for-woocommerce-admin',
+            MAHIMZAMAN_BAB_URL . 'assets/css/admin.css',
             array(),
-            MIXPACK_BUNDLES_VERSION
+            MAHIMZAMAN_BAB_VERSION
         );
 
         wp_enqueue_script(
-            'mixpack-bundles-admin',
-            MIXPACK_BUNDLES_URL . 'assets/js/admin.js',
+            'mahimzaman-build-a-bundle-for-woocommerce-admin',
+            MAHIMZAMAN_BAB_URL . 'assets/js/admin.js',
             array('jquery', 'wc-enhanced-select'),
-            MIXPACK_BUNDLES_VERSION,
+            MAHIMZAMAN_BAB_VERSION,
             true
         );
     }
@@ -426,7 +426,7 @@ final class AdminModule implements Module
             $config['groups'] = array(
                 array(
                     'id'               => 'default',
-                    'label'            => __('Products', 'mixpack-bundles'),
+                    'label'            => __('Products', 'mahimzaman-build-a-bundle-for-woocommerce'),
                     'source'           => 'products',
                     'product_ids'      => array(),
                     'category_ids'     => array(),
@@ -451,7 +451,7 @@ final class AdminModule implements Module
 
             if (isset($packs[$quantity])) {
                 \WC_Admin_Meta_Boxes::add_error(
-                    __('Pack quantities must be unique.', 'mixpack-bundles')
+                    __('Pack quantities must be unique.', 'mahimzaman-build-a-bundle-for-woocommerce')
                 );
 
                 continue;

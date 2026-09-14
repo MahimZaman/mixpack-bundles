@@ -1,8 +1,8 @@
 <?php
 
-namespace MixPack\Bundles\Orders;
+namespace MahimZaman\BuildABundle\Orders;
 
-use MixPack\Bundles\Contracts\Module;
+use MahimZaman\BuildABundle\Contracts\Module;
 
 defined('ABSPATH') || exit;
 
@@ -39,23 +39,23 @@ final class OrderModule implements Module
 
     public function hide_internal_meta($keys)
     {
-        $keys[] = '_mixpack_pack';
-        $keys[] = '_mixpack_selections';
-        $keys[] = '_mixpack_components_created';
-        $keys[] = '_mixpack_component';
-        $keys[] = '_mixpack_parent_item_id';
+        $keys[] = '_mahimzaman_bab_pack';
+        $keys[] = '_mahimzaman_bab_selections';
+        $keys[] = '_mahimzaman_bab_components_created';
+        $keys[] = '_mahimzaman_bab_component';
+        $keys[] = '_mahimzaman_bab_parent_item_id';
 
         return array_unique($keys);
     }
 
     public function add_bundle_meta($item, $cart_item_key, $values, $order)
     {
-        if (empty($values['mixpack'])) {
+        if (empty($values['mahimzaman_bab'])) {
             return;
         }
 
-        $pack       = absint($values['mixpack']['pack']);
-        $selections = $values['mixpack']['selections'];
+        $pack       = absint($values['mahimzaman_bab']['pack']);
+        $selections = $values['mahimzaman_bab']['selections'];
 
         $contents = array();
 
@@ -74,12 +74,12 @@ final class OrderModule implements Module
         }
 
         $item->add_meta_data(
-            __('Pack', 'mixpack-bundles'),
+            __('Pack', 'mahimzaman-build-a-bundle-for-woocommerce'),
             sprintf(
                 /* translators: %d: Number of products in the pack. */
                 __(
                     '%d-Pack',
-                    'mixpack-bundles'
+                    'mahimzaman-build-a-bundle-for-woocommerce'
                 ),
                 $pack
             ),
@@ -87,13 +87,13 @@ final class OrderModule implements Module
         );
 
         $item->add_meta_data(
-            __('Contents', 'mixpack-bundles'),
+            __('Contents', 'mahimzaman-build-a-bundle-for-woocommerce'),
             implode(', ', $contents),
             true
         );
 
-        $item->add_meta_data('_mixpack_pack', $pack, true);
-        $item->add_meta_data('_mixpack_selections', $selections, true);
+        $item->add_meta_data('_mahimzaman_bab_pack', $pack, true);
+        $item->add_meta_data('_mahimzaman_bab_selections', $selections, true);
     }
 
     public function create_component_items($order)
@@ -105,13 +105,13 @@ final class OrderModule implements Module
         $changed = false;
 
         foreach ($order->get_items('line_item') as $parent_item_id => $parent_item) {
-            $selections = $parent_item->get_meta('_mixpack_selections', true);
+            $selections = $parent_item->get_meta('_mahimzaman_bab_selections', true);
 
             if (! is_array($selections) || empty($selections)) {
                 continue;
             }
 
-            if ($parent_item->get_meta('_mixpack_components_created', true)) {
+            if ($parent_item->get_meta('_mahimzaman_bab_components_created', true)) {
                 continue;
             }
 
@@ -144,15 +144,15 @@ final class OrderModule implements Module
                     )
                 );
 
-                $child->add_meta_data('_mixpack_component', 'yes', true);
-                $child->add_meta_data('_mixpack_parent_item_id', $parent_item_id, true);
+                $child->add_meta_data('_mahimzaman_bab_component', 'yes', true);
+                $child->add_meta_data('_mahimzaman_bab_parent_item_id', $parent_item_id, true);
 
                 $order->add_item($child);
                 $changed = true;
             }
 
             $parent_item->update_meta_data(
-                '_mixpack_components_created',
+                '_mahimzaman_bab_components_created',
                 'yes'
             );
 
@@ -168,7 +168,7 @@ final class OrderModule implements Module
     {
         if (
             $item instanceof \WC_Order_Item_Product &&
-            'yes' === $item->get_meta('_mixpack_component', true)
+            'yes' === $item->get_meta('_mahimzaman_bab_component', true)
         ) {
             return is_admin();
         }

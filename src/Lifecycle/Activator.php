@@ -3,10 +3,10 @@
 /**
  * Plugin activation handler.
  *
- * @package MixPackBundles
+ * @package MahimZamanBuildABundle
  */
 
-namespace MixPack\Bundles\Lifecycle;
+namespace MahimZaman\BuildABundle\Lifecycle;
 
 defined('ABSPATH') || exit;
 
@@ -21,14 +21,14 @@ final class Activator
      *
      * @var string
      */
-    private const VERSION_OPTION = 'mixpack_bundles_version';
+    private const VERSION_OPTION = 'mahimzaman_bab_version';
 
     /**
      * Installation timestamp option.
      *
      * @var string
      */
-    private const INSTALLED_AT_OPTION = 'mixpack_bundles_installed_at';
+    private const INSTALLED_AT_OPTION = 'mahimzaman_bab_installed_at';
 
     /**
      * Run plugin activation tasks.
@@ -44,9 +44,9 @@ final class Activator
         self::store_installation_metadata();
 
         /**
-         * Fires after MixPack Bundles activation tasks have completed.
+         * Fires after MahimZaman Build-a-Bundle for WooCommerce activation tasks have completed.
          */
-        do_action('mixpack_bundles_activated');
+        do_action('mahimzaman_bab_activated');
     }
 
     /**
@@ -62,7 +62,7 @@ final class Activator
     {
         update_option(
             self::VERSION_OPTION,
-            MIXPACK_BUNDLES_VERSION,
+            MAHIMZAMAN_BAB_VERSION,
             false
         );
 

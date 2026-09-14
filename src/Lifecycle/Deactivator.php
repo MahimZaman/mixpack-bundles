@@ -3,10 +3,10 @@
 /**
  * Plugin deactivation handler.
  *
- * @package MixPackBundles
+ * @package MahimZamanBuildABundle
  */
 
-namespace MixPack\Bundles\Lifecycle;
+namespace MahimZaman\BuildABundle\Lifecycle;
 
 defined('ABSPATH') || exit;
 
@@ -28,11 +28,11 @@ final class Deactivator
         unset($network_wide);
 
         /**
-         * Fires when MixPack Bundles is deactivated.
+         * Fires when MahimZaman Build-a-Bundle for WooCommerce is deactivated.
          *
          * Persistent bundle and historical order data must not be removed
          * during deactivation.
          */
-        do_action('mixpack_bundles_deactivated');
+        do_action('mahimzaman_bab_deactivated');
     }
 }

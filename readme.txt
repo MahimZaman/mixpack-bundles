@@ -1,4 +1,4 @@
-=== MixPack Bundles ===
+=== MahimZaman Build-a-Bundle for WooCommerce ===
 Contributors: mahimzaman
 Tags: woocommerce, bundles, product bundles, mix and match
 Requires at least: 6.5
@@ -12,7 +12,9 @@ Create flexible mix-and-match product packs and bundles for WooCommerce.
 
 == Description ==
 
-MixPack Bundles for WooCommerce lets store owners create simple visual mix-and-match product packs.
+MahimZaman Build-a-Bundle for WooCommerce lets store owners create simple visual mix-and-match product packs.
+
+MahimZaman Build-a-Bundle for WooCommerce is an independent extension and is not affiliated with or endorsed by WooCommerce or Automattic.
 
 Customers can choose a pack size, select products, track their progress, and add the completed bundle to their cart.
 
@@ -32,15 +34,15 @@ Features include:
 * Responsive frontend interface.
 * Translation-ready strings.
 
-MixPack Bundles currently supports simple WooCommerce products as bundle components.
+MahimZaman Build-a-Bundle for WooCommerce currently supports simple WooCommerce products as bundle components.
 
 == Installation ==
 
 1. Install and activate WooCommerce.
-2. Upload and activate MixPack Bundles for WooCommerce.
+2. Upload and activate MahimZaman Build-a-Bundle for WooCommerce.
 3. Go to Products > Add New.
-4. Select "MixPack Bundle" from Product data.
-5. Open the MixPack tab.
+4. Select "Build-a-Bundle" from Product data.
+5. Open the Build-a-Bundle tab.
 6. Configure pack sizes, pricing, and eligible products.
 7. Publish the product.
 
@@ -48,7 +50,7 @@ MixPack Bundles currently supports simple WooCommerce products as bundle compone
 
 = Can customers choose the same product more than once? =
 
-Yes. Enable "Multiple quantities" in the MixPack product settings.
+Yes. Enable "Multiple quantities" in the Build-a-Bundle product settings.
 
 = Can I create different pack sizes? =
 
@@ -58,11 +60,11 @@ Yes. Pack quantities are configurable and are not limited to 3, 6, or 12.
 
 Yes. A bundle can use manually selected simple products or products from selected categories.
 
-= Does MixPack support variable products? =
+= Does Build-a-Bundle support variable products? =
 
 Variable products are not supported as bundle components in version 1.0.
 
-= Does MixPack track component inventory? =
+= Does Build-a-Bundle track component inventory? =
 
 Yes. Component quantities are preserved in WooCommerce orders so stock can be managed against the underlying products.
 
@@ -70,7 +72,7 @@ Yes. Component quantities are preserved in WooCommerce orders so stock can be ma
 
 = 1.0.0 =
 * Initial public release.
-* Added configurable MixPack bundle product type.
+* Added configurable Build-a-Bundle bundle product type.
 * Added configurable pack sizes.
 * Added fixed and calculated pricing.
 * Added product and category eligibility.
